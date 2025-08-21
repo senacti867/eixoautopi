@@ -105,7 +105,7 @@ function ProdutosFavoritados() {
 
     div.addEventListener('click', (event) => {
       if (event.target.classList.contains('fav_heart')) {
-        removerFavorito(id)
+        removerFavorito(produto.id)
         return
       } else
         if (event.target.classList.contains('compras')) {
@@ -128,7 +128,7 @@ function ProdutosFavoritados() {
 
 function removerFavorito(id) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-  favoritos = favoritos.filter(p => p.id === id);
+  favoritos = favoritos.filter(p => p.id !== id);
   localStorage.setItem('favoritos', JSON.stringify(favoritos));
   ProdutosFavoritados();
 }

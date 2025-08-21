@@ -215,6 +215,22 @@ function FinalizacaoCompra() {
 
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('buy')) {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const produtosAcomprar = Array.from(document.querySelectorAll('.select-product:checked'))
+
+      .map(cb => {
+        const container = cb.closest('.item-carrinho')
+        if (!container) return
+
+        const nome = container.querySelector('h2').textContent.trim()
+        const produto = carrinho.find(p => p.nome === nome)
+        if (!produto) return
+        // const id = parseInt(cb.dataset.id);
+        // return carrinho.find(p => p.id === id); //Provavelmente não vai funcionar pelo fato do dataset ser string e o id no banco int
+      });
+
+    localStorage.setItem('produtos-compra', JSON.stringify(produtosAcomprar));
+
     let total = FinalizacaoCompra()
     if (total > 0) {
       window.location.href = '/eixoauto/eixoautopi/pages/finalizacaoC.php'
@@ -223,5 +239,3 @@ document.addEventListener('click', (event) => {
     }
   }
 })
-
- 

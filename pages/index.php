@@ -73,9 +73,9 @@
 
         <div class="container-slide"> <!-- Slide -->
             <div class="carousel-slide" id="slider">
-                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-FreteGratis.png" alt="">
-                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/propaganda4.svg" alt="">
-                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/propaganda-LongPage.png" alt="">
+                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-Freio.png" alt="">
+                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-Pneu.png" alt="">
+                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-Oleo.png" alt="">
             </div>
             <button class="btn" id="prev">&#10094;</button>
             <button class="btn" id="next">&#10095;</button>
@@ -115,9 +115,9 @@
         
         <div class="container-slide"> <!-- Slide -->
             <div class="carousel-slide" id="slider">
-                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/prop-FG.png" alt="">
-                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/propaganda4.svg" alt="">
-                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/propaganda-LongPage.png" alt="">
+                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-Filtro.png" alt="">
+                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-Cupom.png" alt="">
+                <img class="img-slides" src="/eixoauto/eixoautopi/img/Propagandas/slide-FreteGratis.png" alt="">
             </div>
             <button class="btn" id="prev">&#10094;</button>
             <button class="btn" id="next">&#10095;</button>

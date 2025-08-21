@@ -31,7 +31,7 @@ header {
     padding: 0%;
     width: 100%;
     height: 145px;
-    align-content: end;
+    align-content: center;
 }
 
 /*INPUT*/
@@ -56,10 +56,6 @@ input {
     color: #fff;
     border-radius: 5px;
     border: none;
-}
-
-#buscar {
-    opacity: 1;
 }
 
 /*FIM INPUT*/
@@ -109,14 +105,14 @@ ul {
 
 /*FIM HEADER*/
 
-.banner-slide{
+.banner-slide {
     width: 70%;
     overflow: hidden;
     display: flex;
     justify-self: center;
 }
 
-.img-banner  {
+.img-banner {
     width: 100%;
     height: auto;
     margin: 0;
@@ -151,7 +147,7 @@ ul {
     cursor: pointer;
 }
 
-.category{
+.category {
     width: 20%;
     height: 300px;
     align-content: center;
@@ -161,30 +157,31 @@ ul {
     border-radius: 10px;
     border: 2px solid #F3F4F7;
     padding: 10px;
-    background-color: rgba(243,244,247, 0.2);
+    background-color: rgba(243, 244, 247, 0.2);
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);
-    transition: 1s, ease-in-out, 0.3s; 
+    transition: 1s, ease-in-out, 0.3s;
 }
 
-.category:hover{
+.category:hover {
     transform: scale(1.1);
     box-shadow: #111317;
     text-decoration: none;
 }
 
-.category img{
+.category img {
     width: 90%;
     height: 200px;
     display: flex;
     margin: 20px;
 }
-.category h1{
+
+.category h1 {
     color: #F3F4F7;
 }
 
 .prop {
     width: 20%;
-    height:auto;
+    height: auto;
     justify-self: center;
     border-radius: 10px;
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2);
@@ -245,9 +242,10 @@ ul {
 #next {
     right: 10px;
 }
+
 /* FIM SLIDES */
 
-.lessfluid-linear-container{
+.lessfluid-linear-container {
     width: 25%;
     display: flex;
     background-color: #D6E0EA;
@@ -269,7 +267,7 @@ ul {
     border-radius: 10px;
 }
 
-.linear-container{
+.linear-container {
     width: 100%;
     height: 100%;
     display: flex;
@@ -280,7 +278,7 @@ ul {
     box-shadow: 0 5px 9px rgba(0, 0, 0, 0.2)
 }
 
-div.produto{
+div.produto {
     width: 100%;
     height: 90%;
     padding: 10px;
@@ -297,19 +295,19 @@ div.produto a {
     text-align: left;
 }
 
-div.produto a:hover{
+div.produto a:hover {
     color: blue;
     font-weight: normal;
 }
 
-h2{
+h2 {
     margin-top: 0px;
     text-align: left;
     white-space: wrap;
     cursor: pointer;
 }
 
-.produtos{
+.produtos {
     width: 100%;
     height: 150px;
     object-fit: cover;
@@ -320,7 +318,7 @@ h2{
 }
 
 
-.fav_heart{
+.fav_heart {
     width: 25px;
     height: 25px;
     display: flex;
@@ -342,14 +340,19 @@ h2{
 }
 
 #busca-resultados {
-  position: absolute;
-  background: #fff;
-  border: 1px solid #ccc;
-  width: 300px;
-  max-height: 300px;
-  overflow-y: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 1000;
+    width: 97%;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 8px;
+}
+.item-busca{
+    padding: 8px;
+    cursor: pointer;
 }
 
 /*RESPONSIVIDADE*/
@@ -404,6 +407,7 @@ h2{
     }
 
 }
+
 /* Responsividade Footer*/
 @media (max-width: 768px) {
     .footer-container {
@@ -411,7 +415,9 @@ h2{
         align-items: center;
     }
 
-    .footer-info, .footer-links, .footer-social {
+    .footer-info,
+    .footer-links,
+    .footer-social {
         width: 100%;
         text-align: center;
         margin-bottom: 20px;

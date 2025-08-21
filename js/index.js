@@ -4,12 +4,12 @@ function renderizarBusca(produtos) {
   if (!container) return;
   container.innerHTML = '';
   if (!produtos.length) {
-    container.innerHTML = '<div style="padding:8px;">Nenhum produto encontrado.</div>';
+    container.innerHTML = '<div> Nenhum produto encontrado.</div>';
     container.style.display = 'block';
     return;
   }
   container.innerHTML = produtos.map(prod =>
-    `<div class="item-busca" data-id="${prod.id}" style="padding:8px;cursor:pointer;border-bottom:1px solid #eee;">
+    `<div class="item-busca" data-id="${prod.id}">
       <span>${prod.nome}</span>
     </div>`
   ).join('');
@@ -19,7 +19,8 @@ function renderizarBusca(produtos) {
 // Evento de busca
 const inputBusca = document.getElementById('input-busca');
 const btnBusca = document.getElementById('btn-busca');
-const buscaResultados = document.getElementById('busca-resultados');
+const buscaResultados = document.getElementById('busca-resultados')
+buscaResultados.style.display = 'none'
 
 inputBusca.addEventListener('input', function() {
     const termo = this.value.trim();
@@ -34,8 +35,9 @@ inputBusca.addEventListener('input', function() {
         });
 });
 
-buscaResultados.addEventListener('click', function(e) {
-    if (e.target.closest('.item-busca')) {
+buscaResultados.addEventListener('click', function(event) {
+    buscaResultados.classList.toggle('ativo')
+    if (event.target.closest('.item-busca') && buscaResultados.classList.contains('ativo')) {
         const id = e.target.closest('.item-busca').getAttribute('data-id');
         window.location.href = '/eixoauto/eixoautopi/pages/compra.php?id=' + id;
     }
