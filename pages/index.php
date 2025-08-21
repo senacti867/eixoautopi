@@ -18,20 +18,9 @@
                 <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo EixoAuto">
             </div>
 
-            <div id="header-content"> <!-- Container do input e âncoras da página -->
-                <div id="pesquisa" style="display: flex; align-items: center; gap: 8px;">
-                    <input placeholder="Buscar..." type="text" id="input-busca">
-                    <button id="btn-busca" style="background: none; border: none; cursor: pointer;">
-                        <img src="/eixoauto/eixoautopi/img/Icons/search-icon.png" alt="Buscar" style="width: 24px; height: 24px;">
-                    </button>
-                </div>
-
-                <ul>
-                    <li><a href="_blank">Sobre</a></li>
-                    <li><a href="">Contato</a></li>
-                    <li><a href="/eixoauto/eixoautopi/pages/login.php">Login</a></li> <!--Link à página de Login-->
-                    <li><a href="/eixoauto/eixoautopi/pages/cadastro.php">Cadastro</a></li> <!--Link à página de Cadastro-->
-                </ul>
+            <div id="header-content" style="position: relative;">
+                <input type="text" id="input-busca" placeholder="Buscar produtos..." autocomplete="on">
+                <div id="busca-resultados"></div>
             </div>
 
             <div class="icon"> <!-- Icones da página de favoritos e carrinho de compras -->
@@ -106,8 +95,7 @@
 
         <div class="collum">
             <div class="linear-container" id="motor-category">
-                <div class="" id="produto">
-                </div>
+                <div class="" id="produto-motor"></div>
             </div>
         </div>
 
@@ -121,8 +109,7 @@
 
         <div class="collum">
             <div class="linear-container" id="suspension-category">
-                <div class="linear-products" id="produto">
-                </div>
+                <div class="linear-products" id="produto-suspension"></div>
             </div>
         </div>
         
@@ -147,6 +134,8 @@
         </div>
 
     </div>
+
+    <div id="busca-resultados" style="position:relative; z-index:100;"></div>
 
     <script src="/eixoauto/eixoautopi/js/favoritos.js"></script>
     <script src="/eixoauto/eixoautopi/js/index.js"></script>

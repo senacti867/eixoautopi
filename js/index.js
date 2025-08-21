@@ -1,63 +1,45 @@
 // Função para renderizar resultados de busca
 function renderizarBusca(produtos) {
-  const container = document.querySelector('.linear-container');
+  const container = document.getElementById('busca-resultados');
   if (!container) return;
   container.innerHTML = '';
   if (!produtos.length) {
-    container.innerHTML = '<p>Nenhum produto encontrado.</p>';
+    container.innerHTML = '<div style="padding:8px;">Nenhum produto encontrado.</div>';
+    container.style.display = 'block';
     return;
   }
-  produtos.forEach(produto => {
-    const div = document.createElement('div');
-    div.classList.add('produto');
-    div.innerHTML = `
-      <img class="produtos" src="${produto.imagem}" alt="${produto.nome}">
-      <a href="#">${produto.nome}</a>
-      <h2>${produto.preco}</h2>
-    `;
-    container.appendChild(div);
-  });
+  container.innerHTML = produtos.map(prod =>
+    `<div class="item-busca" data-id="${prod.id}" style="padding:8px;cursor:pointer;border-bottom:1px solid #eee;">
+      <span>${prod.nome}</span>
+    </div>`
+  ).join('');
+  container.style.display = 'block';
 }
 
 // Evento de busca
 const inputBusca = document.getElementById('input-busca');
 const btnBusca = document.getElementById('btn-busca');
+const buscaResultados = document.getElementById('busca-resultados');
 
-function buscarProdutos() {
-  const termo = inputBusca.value.trim();
-  if (termo.length > 0) {
-    fetch(`/eixoauto/eixoautopi/pages/search_produtos.php?q=${encodeURIComponent(termo)}`)
-      .then(res => res.json())
-      .then(produtos => {
-        console.log('Resultado da busca:', produtos);
-        if (produtos.error) {
-          const container = document.querySelector('.linear-container');
-          if (container) {
-            container.innerHTML = `<p style='color:red;'>Erro: ${produtos.error}<br>SQL: ${produtos.sql}<br>DB: ${produtos.db_error}</p>`;
-          }
-        } else {
-          renderizarBusca(produtos);
-        }
-      })
-      .catch(err => {
-        const container = document.querySelector('.linear-container');
-        if (container) {
-          container.innerHTML = `<p style='color:red;'>Erro de conexão: ${err}</p>`;
-        }
-      });
-  }
-}
-
-if (inputBusca) {
-  inputBusca.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      buscarProdutos();
+inputBusca.addEventListener('input', function() {
+    const termo = this.value.trim();
+    if (termo.length < 2) {
+        buscaResultados.innerHTML = '';
+        return;
     }
-  });
-}
-if (btnBusca) {
-  btnBusca.addEventListener('click', buscarProdutos);
-}
+    fetch('/eixoauto/eixoautopi/pages/search_produtos.php?q=' + encodeURIComponent(termo))
+        .then(r => r.json())
+        .then(data => {
+            renderizarBusca(data);
+        });
+});
+
+buscaResultados.addEventListener('click', function(e) {
+    if (e.target.closest('.item-busca')) {
+        const id = e.target.closest('.item-busca').getAttribute('data-id');
+        window.location.href = '/eixoauto/eixoautopi/pages/compra.php?id=' + id;
+    }
+});
 
 const carrossels = document.querySelectorAll('.container-slide');
 carrossels.forEach(container => {
