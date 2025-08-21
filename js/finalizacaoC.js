@@ -39,35 +39,21 @@ pixIcon.addEventListener('click', () => {
             <button id="Copy-btn"><img src="/EixoAuto/img/Icons/Copy-icon.png" alt=""></button>
         </div>
         `
-
         container.appendChild(div)
+
+        div.getElementById('Copy-btn').addEventListener('click', () =>{
+            const PixCode = document.getElementById('Pix-Code').textContent
+            navigator.clipboard.writeText(PixCode)
+        })
     }
 });
 
-/*async function copyToClipboard() {
-    try {
-      await navigator.clipboard.writeText('Texto para copiar');
-      console.log('Texto copiado para a área de transferência');
-    } catch (err) {
-      console.error('Falha ao copiar o texto: ', err);
-    }
-}*/
-
-document.getElementById('Copy-btn').addEventListener('click', () =>{
-    const PixCode = document.getElementById('Pix-Code').textContent
-    navigator.clipboard.writeText(PixCode)
-})
 
 // Apresentar Produtos selecionados
 function AprsentarProdutos() {
-    const produto = JSON.parse(localStorage.getItem('produto-compra')) || [];
+    const produto = JSON.parse(localStorage.getItem('produtos-compra')) || [];
     const container = document.getElementById('carrinho');
     container.innerHTML = '';
-
-    if (produto.length === 0) {
-        container.innerHTML = "<p>Seu carrinho está vazio.</p>";
-        return;
-    }
 
     produto.forEach(produto => {
         const div = document.createElement('div');

@@ -38,7 +38,7 @@ inputBusca.addEventListener('input', function() {
 buscaResultados.addEventListener('click', function(event) {
     buscaResultados.classList.toggle('ativo')
     if (event.target.closest('.item-busca') && buscaResultados.classList.contains('ativo')) {
-        const id = e.target.closest('.item-busca').getAttribute('data-id');
+        const id = event.target.closest('.item-busca').getAttribute('data-id');
         window.location.href = '/eixoauto/eixoautopi/pages/compra.php?id=' + id;
     }
 });
