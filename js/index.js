@@ -47,7 +47,7 @@ const carrossels = document.querySelectorAll('.container-slide');
 carrossels.forEach(container => {
     const slide = container.querySelector('.carousel-slide');
     const images = slide.querySelectorAll('.img-slides');
-    const totalImages = images.length; //Não está reconhecendo o totalImages
+    const totalImages = images.length;
     let i = 0;
 
 
@@ -101,6 +101,7 @@ setInterval(() => {
     Banner()
 }, 3000);
 
+
 //Icon "Favoritar" ação de click
 renderizarProdutos(produtos1, 'linear-container');
 renderizarProdutos(produtos2, 'lessfluid-linear-container');
@@ -115,10 +116,10 @@ function selectContainer(containerClasse) {
 
         favIcons.forEach(icon => {
             icon.addEventListener("click", () => {
-                if (icon.src.includes("/EixoAuto/img/Icons/heart.png")) {
-                    icon.src = "/EixoAuto/img/Icons/heart-checked.png";
+                if (icon.src.includes("/eixoauto/eixoautopi/img/Icons/heart.png")) {
+                    icon.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
                 } else {
-                    icon.src = "/EixoAuto/img/Icons/heart.png";
+                    icon.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
                 }
             });
         });

@@ -7,8 +7,6 @@ function adicionarNoCarrinho(produto) { //Essa função está funcionando corret
   if (!carrinho.find(p => p.id === produto.id)) {
     carrinho.unshift(produto); //Push do produto no início da array
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
-  } else {
-    alert('Produto já está no carrinho!'); //Caso o produto já esteja no arquivo JSON
   }
 };
 
@@ -49,11 +47,10 @@ function CarrinhodeProdutos() {
         return;
       } else
         if (event.target.closest('.btn')) {
-          event.stopPropagation()
+          QtdPreco()
           return
         } else {
           apresentar(produto);
-          window.location.href = '/EixoAuto/pages/compra.php';
         }
     });
 
@@ -77,7 +74,7 @@ function apresentar(produto) {
 
   localStorage.setItem('compra', JSON.stringify([produto]));
   console.log('Produto salvo com sucesso no localStorage');
-  window.location.href = '/eixoauto/eixoautopi/pages/compra.html';
+  window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
 }
 
 
@@ -89,45 +86,44 @@ function SelectProducts() {
 
   const div = document.createElement('div')
   div.classList.add('select-menu')
-  container.appendChild(div)
+  div.innerHTML =
+    `
+      <ul>
+        <li id="selectAll">Selecionar todos</li>
+        <li id="exclude">Excluir</li>
+      </ul>
+    `;
 
 
-  document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('select-product')) {
-      div.innerHTML = `
-        <ul>
-          <li id="selectAll">Selecionar todos</li>
-          <li id="exclude">Excluir</li>
-        </ul>
-      `;
-    }
-  });
 
+  container.appendChild(div);
 
-  function VisibildadeMenu() {
+  function VisibilidadeMenu() {
     const checkboxes = document.querySelectorAll('.select-product');
     const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
-    const selectMenu = document.querySelector('.select-menu');
-
-    if (selectMenu) {
-      selectMenu.display = algumMarcado ? 'block' : 'none';
-    }
+    div.style.display = algumMarcado ? 'block' : 'none'
   }
 
   document.addEventListener('click', (event) => {
     if (event.target.id === 'selectAll') {
       const checkboxes = document.querySelectorAll('.select-product')
-      const checkboxesSelected = Array.from(checkboxes).every(cb => cb.checked);
-      checkboxes.forEach(cb => cb.checked = !checkboxesSelected);
+      const AllcheckboxesSelected = Array.from(checkboxes).every(cb => cb.checked);
+
+      if (AllcheckboxesSelected) {
+        checkboxes.forEach(cb => cb.checked = false)
+      } else {
+        checkboxes.forEach(cb => cb.checked = true)
+      }
+      
       FinalizacaoCompra()
-      VisibildadeMenu()
+      VisibilidadeMenu()
     }
   });
 
   document.addEventListener('change', (event) => {
     if (event.target.classList.contains('select-product')) {
       FinalizacaoCompra();
-      VisibildadeMenu()
+      VisibilidadeMenu()
     }
   });
 
@@ -143,7 +139,6 @@ function SelectProducts() {
 
   })
 }
-SelectProducts()
 
 //Quantidade de Produto + Valor Total
 

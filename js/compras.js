@@ -53,7 +53,7 @@ function PaginaDeProdutos() {
 
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('product')) {
-    window.location.href = '/eixoauto/eixoatopi/pages/finalizacaoC.html'
+    window.location.href = '/eixoauto/eixoatopi/pages/finalizacaoC.php'
   }
 }
 )

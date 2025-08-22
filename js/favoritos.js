@@ -1,7 +1,6 @@
 // Busca produtos do banco de dados e renderiza nos containers
 async function carregarProdutosDoBanco() {
   try {
-
     const resp1 = await fetch('/eixoauto/eixoautopi/pages/get_produtos.php?limit=3&offset=0');
     const produtos1 = await resp1.json();
     renderizarProdutos(produtos1, 'linear-container');
@@ -19,7 +18,6 @@ async function carregarProdutosDoBanco() {
     console.error('Erro ao carregar produtos do banco:', e);
   }
 }
-
 
 carregarProdutosDoBanco();
 
@@ -54,6 +52,11 @@ function renderizarProdutos(lista, containerClasse) {
   });
 }
 
+function selectContainer(containerClasse) {
+  const containers = document.querySelectorAll(`.${containerClasse}`);
+  if (!containers.length) return;
+}
+
 
 //Introdução do produto ao arquivo JSON
 function favoritar(produto) {
@@ -61,11 +64,9 @@ function favoritar(produto) {
   if (!favoritos.find(p => p.id === produto.id)) {
     favoritos.push(produto);
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
-  } else {
-    alert('Produto já favoritado!');
+    selectContainer()
   }
 };
-
 //FUNÇÂO APRESENTAR PRODUTOS
 function apresentar(produto) {
   if (!produto) return;
@@ -106,11 +107,12 @@ function ProdutosFavoritados() {
     div.addEventListener('click', (event) => {
       if (event.target.classList.contains('fav_heart')) {
         removerFavorito(produto.id)
-        return
+        return;
       } else
         if (event.target.classList.contains('compras')) {
           adicionarNoCarrinho(produto)
-        }else{
+          return;
+        } else {
           apresentar(produto)
         }
     })
