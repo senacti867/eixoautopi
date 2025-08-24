@@ -17,7 +17,56 @@
   </header>
 
   <div id="produto-compra">
-    <div class="product-container" id="product-container" ></div>
+    <div class="product-container" id="product-container">
+      <?php
+      include 'config.php';
+      $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+      if ($id > 0) {
+          $sql = "SELECT 
+            p.Pro_Nome, 
+            p.Pro_Preco, 
+            p.Pro_Descricao,
+            p.Pro_LinkProduto, 
+            p.Pro_Imagem,
+            f.For_Nome AS fornecedor, 
+            f.For_LinkSite AS logo
+          FROM tb_produto p
+          JOIN tb_fornecedor f ON p.For_ID = f.For_ID
+          WHERE p.Pro_ID = $id
+          LIMIT 1";
+
+          $result = $conexao->query($sql);
+
+          if ($result && $result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              echo '<div class="product-section">';
+              if (!empty($row['Pro_Imagem'])) {
+                echo '<img class="img-product" src="' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
+              } else {
+                echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Imagem padrão">';
+              }
+              echo '<div class="prize">';
+              echo '<a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
+              echo '<h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';
+              echo '</div>';
+              echo '<div class="store-link">';
+              echo '<a href="' . htmlspecialchars($row['logo']) . '" target="_blank">' . htmlspecialchars($row['fornecedor']) . '</a>';
+              echo '<a href="' . htmlspecialchars($row['Pro_LinkProduto']) . '" target="_blank"><button>Comprar na Loja</button></a>';
+              echo '</div>';
+              echo '<div class="desc">';
+              echo '<h3>Descrição</h3>';
+              echo '<p>' . htmlspecialchars($row['Pro_Descricao']) . '</p>';
+              echo '</div>';
+              echo '</div>';
+          } else {
+              echo "<p>Produto não encontrado.</p>";
+          }
+      } else {
+          echo "<p>ID inválido.</p>";
+      }
+      ?>
+    </div>
   </div>
 
   <div class="comparison">
@@ -54,7 +103,7 @@
           f.For_LinkSite AS logo
         FROM tb_produto p
         JOIN tb_fornecedor f ON p.For_ID = f.For_ID
-        LIMIT 10";
+        LIMIT 5";
 
     $result = $conn->query($sql);
 
