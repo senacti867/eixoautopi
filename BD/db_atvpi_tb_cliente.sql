@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: db_atvpi
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	9.1.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -48,7 +48,7 @@ CREATE TABLE `tb_cliente` (
 
 LOCK TABLES `tb_cliente` WRITE;
 /*!40000 ALTER TABLE `tb_cliente` DISABLE KEYS */;
-INSERT INTO `tb_cliente` VALUES (6,'Arfreios Pecas Diesel','$2y$10$XDRH1eqXgW9S8V.7lAMc4O9PwmUoanTEPVrL8KMJvMAuxslevru06',16,17,16,'01431159000123'),(7,'Rei Pecas','$2y$10$y064sX5dbKEKEzqJd2LnY.SLTsgkjsOVuZaVfszGvMpVWH0BgwbQO',17,18,17,'5879749646');
+INSERT INTO `tb_cliente` VALUES (6,'Arfreios','$2y$10$1dFgKS1MtvSyZuZEEPCyQO4VnWZCv7GIlhTwch9EGRCW3.btdaqGm',16,17,16,'01431159000123'),(7,'Rei Pecas','$2y$10$qqoWWXYLN0sPnXlnnmFnW.xmUfQRpTJZ88rb0zXd8DyOc0aGfo8/i',17,18,17,'205069814000123');
 /*!40000 ALTER TABLE `tb_cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-05 21:43:29
+-- Dump completed on 2025-08-23 20:45:28

@@ -22,6 +22,24 @@
 
   <div class="comparison">
     <?php
+    include 'config.php';
+
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    if ($id > 0) {
+        $sql = "SELECT * FROM tb_produto WHERE Pro_ID = $id";
+        $result = $conexao->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $produto = $result->fetch_assoc();
+            // ...exibe os dados do produto...
+        } else {
+            echo "<p>Produto não encontrado.</p>";
+        }
+    } else {
+        echo "<p>ID inválido.</p>";
+    }
+
     $conn = new mysqli('localhost', 'root', '', 'db_atvpi');
     if ($conn->connect_error) {
       die("Erro de conexão: " . $conn->connect_error);
@@ -31,6 +49,7 @@
           p.Pro_Nome, 
           p.Pro_Preco, 
           p.Pro_LinkProduto, 
+          p.Pro_Imagem,
           f.For_Nome AS fornecedor, 
           f.For_LinkSite AS logo
         FROM tb_produto p
@@ -42,7 +61,11 @@
     if ($result && $result->num_rows > 0) {
       while ($row = $result->fetch_assoc()) {
         echo '<div class="product-section">';
-        echo '  <a href="#"><img class="img-product" src="' . htmlspecialchars($row['Pro_LinkProduto']) . '" alt=""></a>';
+        if (!empty($row['Pro_Imagem'])) {
+          echo '<img class="img-product" src="' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
+        } else {
+          echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked" alt="Imagem padrão">';
+        }
         echo '  <div class="prize">';
         echo '    <a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
         echo '    <h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';

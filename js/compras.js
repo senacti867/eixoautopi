@@ -8,6 +8,14 @@ function apresentar(produto) {
 
 // Página de Compras
 function PaginaDeProdutos() {
+  function PaginaDeProdutos() {
+  const compra = JSON.parse(localStorage.getItem('compra')) || [];
+  if (compra.length > 0) {
+    console.log('ID do produto no localStorage:', compra[0].id);
+  }
+  // resto do código...
+}
+
   const compra = JSON.parse(localStorage.getItem('compra')) || [];
   const container = document.getElementById('produto-compra');
   container.innerHTML = '';

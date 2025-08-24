@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: db_atvpi
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	9.1.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,7 +38,7 @@ CREATE TABLE `tb_email` (
 
 LOCK TABLES `tb_email` WRITE;
 /*!40000 ALTER TABLE `tb_email` DISABLE KEYS */;
-INSERT INTO `tb_email` VALUES (12,'lf@email.com',NULL,NULL,NULL),(13,'maxturbo@email.com',NULL,NULL,NULL),(14,'truxmecanica@email.com',NULL,NULL,NULL),(15,'truckfix@email.com',NULL,NULL,NULL),(16,'criasdoguincho@email.com',NULL,NULL,NULL),(17,'arfreios@gmail.com',NULL,NULL,NULL),(18,'reipecas@gmail.com',NULL,NULL,NULL);
+INSERT INTO `tb_email` VALUES (12,'lf@email.com',NULL,NULL,NULL),(13,'maxturbo@email.com',NULL,NULL,NULL),(14,'truxmecanica@email.com',NULL,NULL,NULL),(15,'truckfix@email.com',NULL,NULL,NULL),(16,'criasdoguincho@email.com',NULL,NULL,NULL),(17,'arfreiosnotas@gmail.com',NULL,NULL,NULL),(18,'reipecas@gmail.com',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tb_email` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-05 21:43:29
+-- Dump completed on 2025-08-23 20:45:28

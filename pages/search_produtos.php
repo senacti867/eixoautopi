@@ -10,10 +10,11 @@ if ($stmt = $conexao->prepare("SELECT
     Pro_Nome as nome, 
     Pro_Descricao as descricao, 
     Pro_Preco as preco, 
-    Pro_LinkProduto as imagem, 
+    Pro_Imagem as imagem, 
+    Pro_LinkProduto as link, 
     Pro_CodigoOriginal as codigo 
-    FROM tb_produto 
-    WHERE Pro_Nome LIKE ? OR Pro_Descricao LIKE ? OR Pro_CodigoOriginal LIKE ?")) {
+FROM tb_produto 
+WHERE Pro_Nome LIKE ? OR Pro_Descricao LIKE ? OR Pro_CodigoOriginal LIKE ?")) {
 
     $likeTerm = "%$termo%";
     $stmt->bind_param("sss", $likeTerm, $likeTerm, $likeTerm);

@@ -4,17 +4,28 @@ header('Content-Type: application/json; charset=utf-8');
 
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 0;
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
-$sql = "SELECT Pro_ID as id, Pro_Nome as nome, Pro_Descricao as descricao, Pro_Preco as preco, Pro_LinkProduto as imagem, Pro_CodigoOriginal as codigo FROM tb_produto";
+
+$sql = "SELECT Pro_ID as id, Pro_Nome as nome, Pro_Descricao as descricao, Pro_Preco as preco, Pro_LinkProduto as link, Pro_CodigoOriginal as codigo, Pro_Imagem as imagem FROM tb_produto";
+
 if ($limit > 0) {
     $sql .= " LIMIT $limit OFFSET $offset";
 }
+
 $result = $conexao->query($sql);
 $produtos = [];
 
 if ($result) {
     while ($row = $result->fetch_assoc()) {
+        // Converte o BLOB para Base64, se existir
+        if (!empty($row['imagem'])) {
+            $row['imagem'] = 'data:image/jpeg;base64,' . base64_encode($row['imagem']);
+        } else {
+            $row['imagem'] = '/eixoauto/eixoautopi/img/Icons/heart-checked.png'; // Caminho da imagem padrão
+        }
+
         $produtos[] = $row;
     }
 }
+
 echo json_encode($produtos, JSON_UNESCAPED_UNICODE);
 ?>

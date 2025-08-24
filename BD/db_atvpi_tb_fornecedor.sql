@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: db_atvpi
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	9.1.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,6 +31,7 @@ CREATE TABLE `tb_fornecedor` (
   `Ema_ID` int NOT NULL,
   `Tel_ID` int NOT NULL,
   `Ins_CNPJ` varchar(50) NOT NULL,
+  `logo` longblob,
   PRIMARY KEY (`For_ID`),
   KEY `End_ID` (`End_ID`),
   KEY `Ema_ID` (`Ema_ID`),
@@ -49,7 +50,7 @@ CREATE TABLE `tb_fornecedor` (
 
 LOCK TABLES `tb_fornecedor` WRITE;
 /*!40000 ALTER TABLE `tb_fornecedor` DISABLE KEYS */;
-INSERT INTO `tb_fornecedor` VALUES (1,'LF Auto Peças','12345678','https://lfautopecas.com.br',11,12,11,'15151515000101'),(2,'Max Turbo','87654321','https://maxturbo.com.br',12,13,12,'10101014000102'),(3,'Trux Mecânica','abcdef12','https://truxmecanica.com.br',13,14,13,'10101011000103'),(4,'TruckFix','senhafix','https://truckfix.com.br',14,15,14,'10101012000104'),(5,'Crias do Guincho','guincho1','https://criasdoguincho.com.br',15,16,15,'10101013000105');
+INSERT INTO `tb_fornecedor` VALUES (1,'LF Auto Peças','12345678','https://lfautopecas.com.br',11,12,11,'15151515000101',NULL),(2,'Max Turbo','87654321','https://maxturbo.com.br',12,13,12,'10101014000102',NULL),(3,'Trux Mecânica','abcdef12','https://truxmecanica.com.br',13,14,13,'10101011000103',NULL),(4,'TruckFix','senhafix','https://truckfix.com.br',14,15,14,'10101012000104',NULL),(5,'Crias do Guincho','guincho1','https://criasdoguincho.com.br',15,16,15,'10101013000105',NULL);
 /*!40000 ALTER TABLE `tb_fornecedor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -62,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-05 21:43:29
+-- Dump completed on 2025-08-23 20:45:28
