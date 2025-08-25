@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Compra</title>
+
   <link rel="stylesheet" href="/eixoauto/eixoautopi/css/compra.css">
 </head>
 
@@ -42,39 +43,38 @@
 
           if ($result && $result->num_rows > 0) {
               $row = $result->fetch_assoc();
-
               echo '<div class="product-section">';
 
-              // imagem do produto
-              if (!empty($row['Pro_Imagem'])) {
-                echo '<img class="img-product" src="' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
-              } else {
-                echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Imagem padrão">';
-              }
+                // imagem do produto
+                if (!empty($row['Pro_Imagem'])) {
+                  echo '<img class="img-product" src="/eixoauto/eixoautopi/' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
+                } else {
+                  echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Imagem padrão">';
+                }
 
-              // nome e preço
-              echo '<div class="prize">';
-              echo '<a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
-              echo '<h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';
-              echo '</div>';
+                // nome e preço
+                echo '<div class="prize">';
+                echo '<a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
+                echo '<h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';
+                echo '</div>';
 
-              // logo + link da loja
-              echo '<div class="store-link">';
-              if (!empty($row['logo'])) {
-                echo '<a href="' . htmlspecialchars($row['site']) . '" target="_blank">
-                        <img src="/eixoauto/eixoautopi/' . htmlspecialchars($row['logo']) . '" alt="Logo do Fornecedor" class="logo-fornecedor">
-                      </a>';
-              } else {
-                echo htmlspecialchars($row['fornecedor']);
-              }
-              echo '<a href="' . htmlspecialchars($row['Pro_LinkProduto']) . '" target="_blank"><button>Comprar na Loja</button></a>';
-              echo '</div>';
+                // logo + link do site
+                echo '<div class="store-link">';
+                if (!empty($row['logo'])) {
+                  echo '<a href="' . htmlspecialchars($row['site']) . '" target="_blank">
+                          <img src="/eixoauto/eixoautopi/' . htmlspecialchars($row['logo']) . '" alt="Logo do Fornecedor" class="logo-fornecedor">
+                        </a>';
+                } else {
+                  echo htmlspecialchars($row['fornecedor']);
+                }
+                echo '<a href="' . htmlspecialchars($row['Pro_LinkProduto']) . '" target="_blank"><button>Comprar na Loja</button></a>';
+                echo '</div>';
 
-              // descrição
-              echo '<div class="desc">';
-              echo '<h3>Descrição</h3>';
-              echo '<p>' . htmlspecialchars($row['Pro_Descricao']) . '</p>';
-              echo '</div>';
+                // descrição
+                echo '<div class="desc">';
+                echo '<h3>Descrição</h3>';
+                echo '<p>' . htmlspecialchars($row['Pro_Descricao']) . '</p>';
+                echo '</div>';
 
               echo '</div>'; // fim product-section
           } else {
@@ -89,7 +89,7 @@
 
   <div class="comparison">
     <?php
-    include 'config.php';
+    include 'config.php'; // Conexão reutilizada do arquivo config.php
 
     $conn = new mysqli('localhost', 'root', '', 'db_atvpi');
     if ($conn->connect_error) {
@@ -113,10 +113,10 @@
     if ($result && $result->num_rows > 0) {
       while ($row = $result->fetch_assoc()) {
         echo '<div class="product-section">';
-        
+
         // imagem do produto
         if (!empty($row['Pro_Imagem'])) {
-          echo '<img class="img-product" src="' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
+          echo '<img class="img-product" src="/eixoauto/eixoautopi/' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
         } else {
           echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Imagem padrão">';
         }

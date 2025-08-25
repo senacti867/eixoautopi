@@ -27,16 +27,13 @@ if ($result) {
         $img = $row['imagem'];
 
         if (!empty($img)) {
-            // Se for recurso binário (BLOB)
             if (is_string($img) && strpos($img, '/') !== false) {
-                // Caminho (ex.: "/eixoauto/img/produto.jpg")
-                $row['imagem'] = $img;
+                // Caminho relativo do banco
+                $row['imagem'] = '/eixoauto/eixoautopi/' . ltrim($img, '/');
             } else {
-                // Converte binário em Base64
                 $row['imagem'] = 'data:image/jpeg;base64,' . base64_encode($img);
             }
         } else {
-            // Imagem padrão
             $row['imagem'] = '/eixoauto/eixoautopi/img/Icons/sem-foto.png';
         }
 
