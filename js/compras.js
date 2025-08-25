@@ -13,7 +13,7 @@ function PaginaDeProdutos() {
   if (compra.length > 0) {
     console.log('ID do produto no localStorage:', compra[0].id);
   }
-  // resto do código...
+
 }
 
   const compra = JSON.parse(localStorage.getItem('compra')) || [];

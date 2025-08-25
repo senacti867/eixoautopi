@@ -5,7 +5,15 @@ header('Content-Type: application/json; charset=utf-8');
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 0;
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
-$sql = "SELECT Pro_ID as id, Pro_Nome as nome, Pro_Descricao as descricao, Pro_Preco as preco, Pro_LinkProduto as link, Pro_CodigoOriginal as codigo, Pro_Imagem as imagem FROM tb_produto";
+$sql = "SELECT 
+            Pro_ID as id, 
+            Pro_Nome as nome, 
+            Pro_Descricao as descricao, 
+            Pro_Preco as preco, 
+            Pro_LinkProduto as link, 
+            Pro_CodigoOriginal as codigo, 
+            Pro_Imagem as imagem 
+        FROM tb_produto";
 
 if ($limit > 0) {
     $sql .= " LIMIT $limit OFFSET $offset";
@@ -16,12 +24,24 @@ $produtos = [];
 
 if ($result) {
     while ($row = $result->fetch_assoc()) {
-        // Converte o BLOB para Base64, se existir
-        if (!empty($row['imagem'])) {
-            $row['imagem'] = 'data:image/jpeg;base64,' . base64_encode($row['imagem']);
+        $img = $row['imagem'];
+
+        if (!empty($img)) {
+            // Se for recurso binário (BLOB)
+            if (is_string($img) && strpos($img, '/') !== false) {
+                // Caminho (ex.: "/eixoauto/img/produto.jpg")
+                $row['imagem'] = $img;
+            } else {
+                // Converte binário em Base64
+                $row['imagem'] = 'data:image/jpeg;base64,' . base64_encode($img);
+            }
         } else {
-            $row['imagem'] = '/eixoauto/eixoautopi/img/Icons/heart-checked.png'; // Caminho da imagem padrão
+            // Imagem padrão
+            $row['imagem'] = '/eixoauto/eixoautopi/img/Icons/sem-foto.png';
         }
+
+        // Formata preço no padrão BR
+        $row['preco'] = "R$ " . number_format($row['preco'], 2, ',', '.');
 
         $produtos[] = $row;
     }

@@ -11,8 +11,9 @@
 <body>
   <header>
     <div id="logo">
-      <a href="/eixoauto/eixoautopi/pages/index.php"><img src="/eixoauto/eixoautopi/img//Icons/Logo E branca real.png"
-          alt="Logo da empresa `Eixo`"></a>
+      <a href="/eixoauto/eixoautopi/pages/index.php">
+        <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo da empresa Eixo">
+      </a>
     </div>
   </header>
 
@@ -30,7 +31,8 @@
             p.Pro_LinkProduto, 
             p.Pro_Imagem,
             f.For_Nome AS fornecedor, 
-            f.For_LinkSite AS logo
+            f.logo AS logo, 
+            f.For_LinkSite AS site
           FROM tb_produto p
           JOIN tb_fornecedor f ON p.For_ID = f.For_ID
           WHERE p.Pro_ID = $id
@@ -40,25 +42,41 @@
 
           if ($result && $result->num_rows > 0) {
               $row = $result->fetch_assoc();
+
               echo '<div class="product-section">';
+
+              // imagem do produto
               if (!empty($row['Pro_Imagem'])) {
                 echo '<img class="img-product" src="' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
               } else {
                 echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Imagem padrão">';
               }
+
+              // nome e preço
               echo '<div class="prize">';
               echo '<a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
               echo '<h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';
               echo '</div>';
+
+              // logo + link da loja
               echo '<div class="store-link">';
-              echo '<a href="' . htmlspecialchars($row['logo']) . '" target="_blank">' . htmlspecialchars($row['fornecedor']) . '</a>';
+              if (!empty($row['logo'])) {
+                echo '<a href="' . htmlspecialchars($row['site']) . '" target="_blank">
+                        <img src="/eixoauto/eixoautopi/' . htmlspecialchars($row['logo']) . '" alt="Logo do Fornecedor" class="logo-fornecedor">
+                      </a>';
+              } else {
+                echo htmlspecialchars($row['fornecedor']);
+              }
               echo '<a href="' . htmlspecialchars($row['Pro_LinkProduto']) . '" target="_blank"><button>Comprar na Loja</button></a>';
               echo '</div>';
+
+              // descrição
               echo '<div class="desc">';
               echo '<h3>Descrição</h3>';
               echo '<p>' . htmlspecialchars($row['Pro_Descricao']) . '</p>';
               echo '</div>';
-              echo '</div>';
+
+              echo '</div>'; // fim product-section
           } else {
               echo "<p>Produto não encontrado.</p>";
           }
@@ -73,22 +91,6 @@
     <?php
     include 'config.php';
 
-    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-    if ($id > 0) {
-        $sql = "SELECT * FROM tb_produto WHERE Pro_ID = $id";
-        $result = $conexao->query($sql);
-
-        if ($result && $result->num_rows > 0) {
-            $produto = $result->fetch_assoc();
-            // ...exibe os dados do produto...
-        } else {
-            echo "<p>Produto não encontrado.</p>";
-        }
-    } else {
-        echo "<p>ID inválido.</p>";
-    }
-
     $conn = new mysqli('localhost', 'root', '', 'db_atvpi');
     if ($conn->connect_error) {
       die("Erro de conexão: " . $conn->connect_error);
@@ -100,30 +102,44 @@
           p.Pro_LinkProduto, 
           p.Pro_Imagem,
           f.For_Nome AS fornecedor, 
-          f.For_LinkSite AS logo
+          f.logo AS logo, 
+          f.For_LinkSite AS site
         FROM tb_produto p
         JOIN tb_fornecedor f ON p.For_ID = f.For_ID
-        LIMIT 5";
+        LIMIT 15";
 
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
       while ($row = $result->fetch_assoc()) {
         echo '<div class="product-section">';
+        
+        // imagem do produto
         if (!empty($row['Pro_Imagem'])) {
           echo '<img class="img-product" src="' . htmlspecialchars($row['Pro_Imagem']) . '" alt="' . htmlspecialchars($row['Pro_Nome']) . '">';
         } else {
-          echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked" alt="Imagem padrão">';
+          echo '<img class="img-product" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Imagem padrão">';
         }
-        echo '  <div class="prize">';
-        echo '    <a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
-        echo '    <h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';
-        echo '  </div>';
-        echo '  <div class="store-link">';
-        echo '    <a href="' . htmlspecialchars($row['logo']) . '" target="_blank">' . htmlspecialchars($row['fornecedor']) . '</a>';
-        echo '    <a href="#"><button>Comprar na Loja</button></a>';
-        echo '  </div>';
+
+        // nome e preço
+        echo '<div class="prize">';
+        echo '<a href="#">' . htmlspecialchars($row['Pro_Nome']) . '</a>';
+        echo '<h1>R$ ' . number_format($row['Pro_Preco'], 2, ',', '.') . '</h1>';
         echo '</div>';
+
+        // logo + link do site
+        echo '<div class="store-link">';
+        if (!empty($row['logo'])) {
+          echo '<a href="' . htmlspecialchars($row['site']) . '" target="_blank">
+                  <img src="/eixoauto/eixoautopi/' . htmlspecialchars($row['logo']) . '" alt="Logo do Fornecedor" class="logo-fornecedor">
+                </a>';
+        } else {
+          echo htmlspecialchars($row['fornecedor']);
+        }
+        echo '<a href="' . htmlspecialchars($row['Pro_LinkProduto']) . '" target="_blank"><button>Comprar na Loja</button></a>';
+        echo '</div>';
+
+        echo '</div>'; // fim product-section
       }
     } else {
       echo '<p>Nenhuma oferta encontrada.</p>';
