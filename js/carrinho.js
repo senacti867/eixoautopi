@@ -217,6 +217,6 @@ document.addEventListener('click', (event) => {
 function parsePreco(precoStr) {
   // Remove "R$" e espaços, troca ponto de milhar e vírgula decimal
   return parseFloat(
-    precoStr.replace('R$', '').replace(/\./g, '').replace(',', '.').trim()
+    precoStr.replace('R$', '').replace(',', '.').trim()
   );
 }
