@@ -141,5 +141,3 @@
     <script src="/eixoauto/eixoautopi/js/index.js"></script>
     <script src="/eixoauto/eixoautopi/js/compras.js"></script>
 </body>
-
-</html>

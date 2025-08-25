@@ -27,27 +27,15 @@ function renderizarProdutos(lista, containerClasse) {
 
   containers.forEach(container => {
     lista.forEach(produto => {
-      const div = document.createElement('div');
-      div.classList.add('produto');
-      div.innerHTML = `
-        <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Ícone de favoritos" onclick='favoritar(${JSON.stringify(produto)})'>
-        <img class="produtos" src="${produto.imagem}" alt="${produto.nome}">
-        <a href="#">${produto.nome}</a>
-        <h2>${produto.preco}</h2>
-      `;
-
-      div.style.cursor = 'pointer';
-      div.addEventListener('click', (event) => {
-        if (event.target.closest('img.fav_heart')) {
-          favoritar(produto);
-          return;
-        } else {
-          apresentar(produto);
-          window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
-        }
-      });
-
-      container.appendChild(div);
+      let card = document.createElement('div');
+      card.className = 'produto-card';
+      card.innerHTML = `
+        <a href="/eixoauto/eixoautopi/pages/compra.php?id=${produto.id}">
+            <img src="${produto.imagem}" alt="${produto.nome}">
+            <span>${produto.nome}</span>
+        </a>
+    `;
+      container.appendChild(card);
     });
   });
 }
