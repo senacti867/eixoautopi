@@ -116,5 +116,36 @@ document.addEventListener('DOMContentLoaded', () => {
   PaginaDeProdutos();
 });
 
+const selecionados = produtos.filter(p => p.selecionado); // ajuste conforme seu código
+localStorage.setItem('produtos-compra', JSON.stringify(selecionados));
+
+document.addEventListener('click', (event) => {
+  if (event.target.classList.contains('buy')) {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const produtosAcomprar = Array.from(document.querySelectorAll('.select-product:checked'))
+      .map(cb => {
+        const container = cb.closest('.item-carrinho');
+        if (!container) return;
+
+        const nome = container.querySelector('h2').textContent.trim();
+        const produto = carrinho.find(p => p.nome === nome);
+        if (!produto) return;
+        // Adicione a quantidade selecionada ao produto:
+        const qtd = parseInt(container.querySelector('.qtd').textContent.trim(), 10) || 1;
+        return { ...produto, quantidade: qtd };
+      }).filter(p => p !== undefined); // Filtra produtos não encontrados
+
+    // Salva todos os produtos selecionados para compra
+    localStorage.setItem('produtos-compra', JSON.stringify(produtosAcomprar));
+
+    let total = FinalizacaoCompra();
+    if (total > 0) {
+      window.location.href = '/eixoauto/eixoautopi/pages/finalizacaoC.php';
+    } else {
+      alert('Nenhum produto foi selecionado. Selecione no mínimo um produto para finalizar a compra.');
+    }
+  }
+});
+
 
 

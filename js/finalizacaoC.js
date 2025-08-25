@@ -95,23 +95,30 @@ function ProdutosValor() {
 let enderecoAtual = "Rua Exemplo, 123 - Bairro - Cidade/UF";
 
 function atualizarResumo() {
+    const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
     const lista = document.getElementById('lista-produtos');
     const totalEl = document.getElementById('valor-total');
     let total = 0;
 
     lista.innerHTML = '';
     produtos.forEach(prod => {
-        total += prod.preco;
+        // Converte preço para número se necessário
+        let precoNum = typeof prod.preco === 'string'
+            ? parseFloat(prod.preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
+            : prod.preco;
+
+        total += precoNum * (prod.quantidade || 1);
         const item = document.createElement('div');
         item.classList.add('product');
         item.innerHTML = `
           <span>${prod.nome}</span>
-          <span>R$ ${prod.preco.toFixed(2)}</span>
+          <span>Qtd: ${prod.quantidade || 1}</span>
+          <span>R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
         `;
         lista.appendChild(item);
     });
 
-    totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+    totalEl.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
 }
 
 function mostrarFormularioEndereco() {
@@ -145,3 +152,32 @@ document.getElementById('pagamento').addEventListener('change', function () {
 });
 */
 atualizarResumo();
+
+function mostrarProdutosFinalizacao() {
+    const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
+    const lista = document.getElementById('produtos-finalizacao');
+    lista.innerHTML = '';
+
+    if (produtos.length === 0) {
+        lista.innerHTML = '<p>Nenhum produto selecionado.</p>';
+        return;
+    }
+
+    produtos.forEach(prod => {
+        let precoNum = typeof prod.preco === 'string'
+            ? parseFloat(prod.preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
+            : prod.preco;
+
+        const item = document.createElement('div');
+        item.classList.add('produto-finalizacao');
+        item.innerHTML = `
+            <img src="${prod.imagem}" alt="${prod.nome}" style="width:60px;vertical-align:middle;">
+            <span style="margin-left:10px;">${prod.nome}</span>
+            <span style="margin-left:10px;">Qtd: ${prod.quantidade || 1}</span>
+            <span style="margin-left:10px;">R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
+        `;
+        lista.appendChild(item);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', mostrarProdutosFinalizacao);

@@ -34,6 +34,7 @@
 
         <div class="section">
             <h3>Produtos</h3>
+            <div id="produtos-finalizacao"></div>
         </div>
 
 
@@ -67,7 +68,5 @@
     </div>
 
     <script src="/eixoauto/eixoautopi/js/finalizacaoC.js"></script>
-    <script src="/eixoauto/eixoautopi/js/favoritos.js"></script>
 </body>
-
 </html>
