@@ -39,7 +39,7 @@ function PaginaDeProdutos() {
       <button class="btn" id="prev">&#10094;</button>
       <div class="img-box">
         <div class="icon"><img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos" onclick='favoritar(${JSON.stringify(produto)})'></div>
-        <img src="${produto.imagem}" alt="${produto.nome}">
+        <img src="/eixoauto/eixoautopi/${produto.imagem}" alt="${produto.nome}">
         <h2 class="product-prize">${produto.preco}</h2>
   
         <div class="btn-container">
