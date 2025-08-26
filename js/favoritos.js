@@ -1,15 +1,13 @@
-// Busca produtos do banco de dados e renderiza nos containers
+// Carrega produtos do banco e renderiza nos containers
 async function carregarProdutosDoBanco() {
   try {
     const resp1 = await fetch('/eixoauto/eixoautopi/pages/get_produtos.php?limit=3&offset=0');
     const produtos1 = await resp1.json();
     renderizarProdutos(produtos1, 'linear-container');
 
-
     const resp2 = await fetch('/eixoauto/eixoautopi/pages/get_produtos.php?limit=5&offset=3');
     const produtos2 = await resp2.json();
     renderizarProdutos(produtos2, 'lessfluid-linear-container');
-
 
     const resp3 = await fetch('/eixoauto/eixoautopi/pages/get_produtos.php?limit=7&offset=8');
     const produtos3 = await resp3.json();
@@ -21,6 +19,7 @@ async function carregarProdutosDoBanco() {
 
 carregarProdutosDoBanco();
 
+// Renderiza os produtos nos containers especificados
 function renderizarProdutos(lista, containerClasse) {
   const containers = document.querySelectorAll(`.${containerClasse}`);
   if (!containers.length) return;
@@ -37,13 +36,13 @@ function renderizarProdutos(lista, containerClasse) {
       `;
 
       div.style.cursor = 'pointer';
+
       div.addEventListener('click', (event) => {
         if (event.target.closest('img.fav_heart')) {
           favoritar(produto);
           return;
         } else {
-          apresentar(produto);
-          window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
+          apresentar(produto); // ← produto é passado corretamente
         }
       });
 
@@ -52,36 +51,33 @@ function renderizarProdutos(lista, containerClasse) {
   });
 }
 
-function selectContainer(containerClasse) {
-  const containers = document.querySelectorAll(`.${containerClasse}`);
-  if (!containers.length) return;
-}
-
-
-//Introdução do produto ao arquivo JSON
+// Função para favoritar produtos
 function favoritar(produto) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
   if (!favoritos.find(p => p.id === produto.id)) {
     favoritos.push(produto);
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
-    selectContainer()
   }
-};
-//FUNÇÂO APRESENTAR PRODUTOS
+}
+
+
 function apresentar(produto) {
-  if (!produto) return;
+  if (!produto || !produto.id) {
+    console.warn('Produto inválido ao tentar apresentar:', produto);
+    return;
+  }
 
   localStorage.setItem('compra', JSON.stringify([produto]));
   console.log('Produto salvo com sucesso no localStorage');
   window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
 }
 
-//FAVORITOS
 
+// Função para exibir os produtos favoritados
 function ProdutosFavoritados() {
   const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
   const container = document.getElementById('favoritos-container');
-  container.innerHTML = ''
+  container.innerHTML = '';
 
   if (favoritos.length === 0) {
     container.innerHTML = "<p>Nenhum produto favoritado.</p>";
@@ -91,43 +87,33 @@ function ProdutosFavoritados() {
   favoritos.forEach((produto) => {
     const div = document.createElement('div');
     div.classList.add('produto');
-    div.innerHTML =
-      `
-      <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt= "Ícone de favoritos" onclick="removerFavorito(${produto.id})">
-        <div class='produtos'> <img  src='${produto.imagem}' alt='${produto.nome}'></div>
-          <h3>${produto.nome}</h3>
-
-          <div class='content'>
-            <h2>${produto.preco}</h2>
-            <img class="compras" src="/eixoauto/eixoautopi/img/Icons/carrinho-branco.png" alt="Ícone do carrinho" onclick='adicionarNoCarrinho(${JSON.stringify(produto)})'>
-          </div>   
-    `; //Criando os elementos html do produto na página de favoritos
-    container.appendChild(div);
+    div.innerHTML = `
+      <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Ícone de favoritos" onclick="removerFavorito(${produto.id})">
+      <div class='produtos'><img src='${produto.imagem}' alt='${produto.nome}'></div>
+      <h3>${produto.nome}</h3>
+      <div class='content'>
+        <h2>${produto.preco}</h2>
+        <img class="compras" src="/eixoauto/eixoautopi/img/Icons/carrinho-branco.png" alt="Ícone do carrinho">
+      </div>
+    `;
 
     div.addEventListener('click', (event) => {
       if (event.target.classList.contains('fav_heart')) {
-        removerFavorito(produto.id)
+        removerFavorito(produto.id);
         return;
-      } else
-        if (event.target.classList.contains('compras')) {
-          adicionarNoCarrinho(produto)
-          return;
-        } else {
-          apresentar(produto)
-        }
-    })
+      } else if (event.target.classList.contains('compras')) {
+        adicionarNoCarrinho(produto);
+        return;
+      } else {
+        apresentar(produto);
+      }
+    });
 
-    const iconCarrinho = div.querySelector('.compras')
-    iconCarrinho.addEventListener('click', () => {
-      const produto = JSON.parse(iconCarrinho.getAttribute('produto-carrinho'))
-      adicionarNoCarrinho(produto)
-
-    })
+    container.appendChild(div);
   });
-};
+}
 
-//DELETE
-
+// Função para remover produto dos favoritos
 function removerFavorito(id) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
   favoritos = favoritos.filter(p => p.id !== id);
@@ -135,5 +121,13 @@ function removerFavorito(id) {
   ProdutosFavoritados();
 }
 
-ProdutosFavoritados();
+// Função fictícia: adicionar no carrinho
+function adicionarNoCarrinho(produto) {
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  carrinho.push(produto);
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  console.log('Produto adicionado ao carrinho:', produto.nome);
+}
 
+// Inicializa os produtos favoritados na página
+ProdutosFavoritados();

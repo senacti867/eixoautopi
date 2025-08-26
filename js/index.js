@@ -3,18 +3,24 @@ function renderizarBusca(produtos) {
     const container = document.getElementById('busca-resultados');
     if (!container) return;
     container.innerHTML = '';
+
     if (!produtos.length) {
         container.innerHTML = '<div style="padding:8px;">Nenhum produto encontrado.</div>';
         container.style.display = 'block';
         return;
     }
+
+    // Armazena o produto inteiro como string JSON no atributo data
     container.innerHTML = produtos.map(prod =>
-        `<div class="item-busca" data-id="${prod.id}" style="padding:8px;cursor:pointer;border-bottom:1px solid #eee;">
+        `<div class="item-busca" 
+              style="padding:8px;cursor:pointer;border-bottom:1px solid #eee;"
+              data-produto='${JSON.stringify(prod)}'>
             <span>${prod.nome}</span>
         </div>`
     ).join('');
     container.style.display = 'block';
 }
+
 
 // Evento de busca
 const inputBusca = document.getElementById('input-busca');
@@ -35,14 +41,19 @@ inputBusca.addEventListener('input', function() {
         });
 });
 
+// Evento de clique nos itens da busca
 buscaResultados.addEventListener('click', function(e) {
     const item = e.target.closest('.item-busca');
     if (item) {
-        const id = item.getAttribute('data-id'); // Certifique-se de que o ID está correto
-        console.log('ID do produto clicado:', id); // Adicione um log para verificar o ID
-        window.location.href = '/eixoauto/eixoautopi/pages/compra.php?id=' + id;
+        try {
+            const produto = JSON.parse(item.getAttribute('data-produto'));
+            apresentar(produto); // ← Salva e redireciona corretamente
+        } catch (err) {
+            console.error("Erro ao interpretar produto da busca:", err);
+        }
     }
 });
+
 
 const carrossels = document.querySelectorAll('.container-slide');
 carrossels.forEach(container => {
