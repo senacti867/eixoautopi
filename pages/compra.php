@@ -155,6 +155,18 @@
   <script src="/eixoauto/eixoautopi/js/favoritos.js"></script>
   <script src="/eixoauto/eixoautopi/js/compras.js"></script>
   <script src="/eixoauto/eixoautopi/js/index.js"></script>
+  <script>
+    // Exemplo de redirecionamento com ID
+    function apresentar(produto) {
+        if (!produto || !produto.id) {
+            console.error("Produto ou ID do produto não encontrado.");
+            return;
+        }
+
+        
+        window.location.href = `/eixoauto/eixoautopi/pages/compra.php?id=${produto.id}`;
+    }
+  </script>
 </body>
 
 </html>
