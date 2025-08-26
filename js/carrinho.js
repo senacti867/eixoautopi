@@ -46,7 +46,7 @@ function CarrinhodeProdutos() {
         SelectProducts();
         return;
       } else if (event.target.closest('.btn')) {
-        QtdPreco();
+        QtdPreco(event);
         return;
       } else {
         apresentar(produto);
@@ -80,84 +80,86 @@ function SelectProducts() {
   `;
 
   container.appendChild(div);
-
-  function VisibilidadeMenu() {
-    const checkboxes = document.querySelectorAll('.select-product');
-    const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
-    div.style.display = algumMarcado ? 'block' : 'none';
-  }
-
-  document.addEventListener('click', (event) => {
-    if (event.target.id === 'selectAll') {
-      const checkboxes = document.querySelectorAll('.select-product');
-      const AllcheckboxesSelected = Array.from(checkboxes).every(cb => cb.checked);
-
-      if (AllcheckboxesSelected) {
-        checkboxes.forEach(cb => cb.checked = false);
-      } else {
-        checkboxes.forEach(cb => cb.checked = true);
-      }
-
-      FinalizacaoCompra();
-      VisibilidadeMenu();
-    }
-  });
-
-  document.addEventListener('change', (event) => {
-    if (event.target.classList.contains('select-product')) {
-      FinalizacaoCompra();
-      VisibilidadeMenu();
-    }
-  });
-
-  document.addEventListener('click', (event) => {
-    if (event.target.id === 'exclude') {
-      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-      const checkboxesSelected = document.querySelectorAll('.select-product:checked');
-      const idsToExclude = Array.from(checkboxesSelected).map(cbs => parseInt(cbs.dataset.id));
-      carrinho = carrinho.filter(p => !idsToExclude.includes(p.id));
-      localStorage.setItem('carrinho', JSON.stringify(carrinho));
-      location.reload();
-    }
-  });
 }
 
+function VisibilidadeMenu() {
+  const div = document.querySelector('.select-menu')
+  const checkboxes = document.querySelectorAll('.select-product');
+  const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
+  div.style.display = algumMarcado ? 'block' : 'none';
+}
+
+document.addEventListener('click', (event) => {
+  if (event.target.id === 'selectAll') {
+    const checkboxes = document.querySelectorAll('.select-product');
+    const AllcheckboxesSelected = Array.from(checkboxes).every(cb => cb.checked);
+
+    if (AllcheckboxesSelected) {
+      checkboxes.forEach(cb => cb.checked = false);
+    } else {
+      checkboxes.forEach(cb => cb.checked = true);
+    }
+
+    FinalizacaoCompra();
+    VisibilidadeMenu();
+  }
+});
+
+document.addEventListener('change', (event) => {
+  if (event.target.classList.contains('select-product')) {
+    FinalizacaoCompra();
+    VisibilidadeMenu();
+  }
+});
+
+document.addEventListener('click', (event) => {
+  if (event.target.id === 'exclude') {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const checkboxesSelected = document.querySelectorAll('.select-product:checked');
+    const NamesToExclude = Array.from(checkboxesSelected).map(cbs => {
+      const item = cbs.closest('.item-carrinho')
+      return item.querySelector('h2').textContent.trim()
+    });
+    carrinho = carrinho.filter(p => !NamesToExclude.includes(p.nome.trim()));
+
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    CarrinhodeProdutos()
+  }
+});
+
+
 // Função para ajustar a quantidade e preço
-function QtdPreco() {
+function QtdPreco(event) {
   const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-  document.getElementById('carrinho').addEventListener('click', (event) => {
-    const more = event.target.closest('.more');
-    const less = event.target.closest('.less');
+  const item = event.target.closest('.item-carrinho');
+  if (!item) return;
 
-    if (more || less) {
-      const item = event.target.closest('.item-carrinho');
-      if (!item) return;
+  const more = event.target.closest('.more');
+  const less = event.target.closest('.less');
 
-      const qtd = item.querySelector('.qtd');
-      const preco = item.querySelector('.prize h1');
-      const nome = item.querySelector('h2').textContent;
+  const qtd = item.querySelector('.qtd');
+  const preco = item.querySelector('.prize h1');
+  const nome = item.querySelector('h2').textContent;
 
-      const produto = carrinho.find(p => p.nome === nome);
-      if (!produto) return;
+  const produto = carrinho.find(p => p.nome === nome);
+  if (!produto) return;
 
-      const precoInicial = parsePreco(produto.preco);
+  const precoInicial = parsePreco(produto.preco);
 
-      let quantidadeAtual = parseInt(qtd.textContent);
-      if (more) {
-        quantidadeAtual++;
-      } else if (less && quantidadeAtual > 1) {
-        quantidadeAtual--;
-      }
+  let quantidadeAtual = parseInt(qtd.textContent);
+  if (more) {
+    quantidadeAtual++;
+  } else if (less && quantidadeAtual > 1) {
+    quantidadeAtual--;
+  }
 
-      qtd.textContent = quantidadeAtual;
+  qtd.textContent = quantidadeAtual;
 
-      const total = quantidadeAtual * precoInicial;
-      preco.textContent = total.toFixed(2).replace('.', ',');
+  const total = quantidadeAtual * precoInicial;
+  preco.textContent = total.toFixed(2).replace('.', ',');
 
-      FinalizacaoCompra();
-    }
-  });
+  FinalizacaoCompra();
 }
 
 // Função para calcular o valor total da compra
@@ -187,7 +189,7 @@ function FinalizacaoCompra() {
   return valorTotalCompra;
 }
 
-// Exemplo: ao clicar no botão "Finalizar Compra"
+
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('buy')) {
     const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
@@ -215,7 +217,6 @@ document.addEventListener('click', (event) => {
 });
 
 function parsePreco(precoStr) {
-  // Remove "R$" e espaços, troca ponto de milhar e vírgula decimal
   return parseFloat(
     precoStr.replace('R$', '').replace(',', '.').trim()
   );
