@@ -82,7 +82,7 @@
         </div>
 
         <div class="collum">
-            <div class=""></div> <!-- Rede de propagandas linear -->
+            <div class="lessfluid-linear-container"></div> <!-- Rede de propagandas linear -->
             <div class="fluid-linear-container" id="freio-category">
             </div>
         </div>
@@ -90,12 +90,13 @@
         <div class="collum">
             <div class="fluid-linear-container" id="transmission-category">
             </div>
-            <div class=""></div>
+            <div class="lessfluid-linear-container"></div>
         </div>
 
         <div class="collum">
             <div class="linear-container" id="motor-category">
-                <div class="" id="produto-motor"></div>
+                <div class="linear-products" id="produto">
+                </div>
             </div>
         </div>
 
