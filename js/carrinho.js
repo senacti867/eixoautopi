@@ -45,7 +45,7 @@ function CarrinhodeProdutos() {
         event.stopPropagation();
         SelectProducts();
         return;
-      } else if (event.target.closest('.btn')) {
+      } else if (event.target.closest('.btn') || event.target.closest('.qtd') ) {
         QtdPreco(event);
         return;
       } else {
@@ -56,6 +56,57 @@ function CarrinhodeProdutos() {
     container.appendChild(div);
   });
 }
+
+document.getElementById('carrinho').addEventListener('click', (event) => {
+  const qtdDiv = event.target.closest('.qtd');
+  if (!qtdDiv) return;
+
+  const item = qtdDiv.closest('.item-carrinho');
+  if (!item) return;
+
+  const nome = item.querySelector('h2').textContent;
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  const produto = carrinho.find(p => p.nome === nome);
+  if (!produto) return;
+
+  // Cria input para edição
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.min = 1;
+  input.value = qtdDiv.textContent.trim();
+  input.classList.add('qtd');
+  qtdDiv.replaceWith(input);
+
+  // Foco automático
+  input.focus();
+
+  // Quando sair do input ou apertar Enter → salvar
+  function salvar() {
+    let quantidadeAtual = parseInt(input.value) || 1;
+    if (quantidadeAtual < 1) quantidadeAtual = 1;
+
+    // Atualiza o carrinho
+    const precoEl = item.querySelector('.prize h1');
+    const precoUnitario = parsePreco(produto.preco);
+    precoEl.textContent = (quantidadeAtual * precoUnitario).toFixed(2).replace('.', ',');
+
+    // Substitui input pelo div novamente
+    const novoDiv = document.createElement('div');
+    novoDiv.classList.add('qtd');
+    novoDiv.textContent = quantidadeAtual;
+    input.replaceWith(novoDiv);
+
+    FinalizacaoCompra();
+  }
+
+  input.addEventListener('blur', salvar);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      salvar();
+    }
+  });
+});
+
 
 // Função para navegar para a página de compra
 function apresentar(produto) {
