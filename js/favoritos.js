@@ -28,48 +28,22 @@ function renderizarProdutos(lista, containerClasse) {
     lista.forEach(produto => {
       const div = document.createElement('div');
       div.classList.add('produto');
-
-      // Cria o coração
-      const imgHeart = document.createElement('img');
-      imgHeart.classList.add('fav_heart');
-      imgHeart.alt = 'Ícone de favoritos';
-
-      // Define src inicial conforme localStorage
-      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-      imgHeart.src = favoritos.find(p => p.id === produto.id)
-        ? "/eixoauto/eixoautopi/img/Icons/heart-checked.png"
-        : "/eixoauto/eixoautopi/img/Icons/heart.png";
-
-      // Evento de clique no coração
-      imgHeart.addEventListener('click', (e) => {
-        e.stopPropagation(); // evita abrir o produto
-        favoritar(produto, imgHeart);
-      });
-
-      div.appendChild(imgHeart);
-
-      // Adiciona a imagem do produto
-      const imgProduto = document.createElement('img');
-      imgProduto.classList.add('produtos');
-      imgProduto.src = produto.imagem;
-      imgProduto.alt = produto.nome;
-      div.appendChild(imgProduto);
-
-      // Nome e preço
-      const nome = document.createElement('a');
-      nome.href = "#";
-      nome.textContent = produto.nome;
-      div.appendChild(nome);
-
-      const preco = document.createElement('h2');
-      preco.textContent = produto.preco;
-      div.appendChild(preco);
+      div.innerHTML = `
+        <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Ícone de favoritos" onclick='favoritar(${JSON.stringify(produto)})'>
+        <img class="produtos" src="${produto.imagem}" alt="${produto.nome}">
+        <a href="#">${produto.nome}</a>
+        <h2>${produto.preco}</h2>
+      `;
 
       div.style.cursor = 'pointer';
 
-      // Clique no container abre a página do produto
-      div.addEventListener('click', () => {
-        apresentar(produto);
+      div.addEventListener('click', (event) => {
+        if (event.target.closest('img.fav_heart')) {
+          favoritar(produto);
+          return;
+        } else {
+          apresentar(produto); // ← produto é passado corretamente
+        }
       });
 
       container.appendChild(div);
@@ -77,26 +51,15 @@ function renderizarProdutos(lista, containerClasse) {
   });
 }
 
-// Função para favoritar/desfavoritar produtos
-function favoritar(produto, imgElement) {
+// Função para favoritar produtos
+function favoritar(produto) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-  const index = favoritos.findIndex(p => p.id === produto.id);
-
-  if (index === -1) {
+  if (!favoritos.find(p => p.id === produto.id)) {
     favoritos.push(produto);
-    imgElement.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
-  } else {
-    favoritos.splice(index, 1);
-    imgElement.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
-  }
-
-  localStorage.setItem('favoritos', JSON.stringify(favoritos));
-
-  // Atualiza a lista de favoritos se estiver na página de favoritos
-  if (document.getElementById('favoritos-container')) {
-    ProdutosFavoritados();
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
   }
 }
+
 
 function apresentar(produto) {
   if (!produto || !produto.id) {
@@ -105,10 +68,12 @@ function apresentar(produto) {
   }
 
   localStorage.setItem('compra', JSON.stringify([produto]));
+  console.log('Produto salvo com sucesso no localStorage');
   window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
 }
 
-// Exibe os produtos favoritados
+
+// Função para exibir os produtos favoritados
 function ProdutosFavoritados() {
   const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
   const container = document.getElementById('favoritos-container');
@@ -122,58 +87,33 @@ function ProdutosFavoritados() {
   favoritos.forEach((produto) => {
     const div = document.createElement('div');
     div.classList.add('produto');
+    div.innerHTML = `
+      <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Ícone de favoritos" onclick="removerFavorito(${produto.id})">
+      <div class='produtos'><img src='${produto.imagem}' alt='${produto.nome}'></div>
+      <h3>${produto.nome}</h3>
+      <div class='content'>
+        <h2>${produto.preco}</h2>
+        <img class="compras" src="/eixoauto/eixoautopi/img/Icons/carrinho-branco.png" alt="Ícone do carrinho">
+      </div>
+    `;
 
-    // Coração para remover favorito
-    const imgHeart = document.createElement('img');
-    imgHeart.classList.add('fav_heart');
-    imgHeart.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
-    imgHeart.alt = "Ícone de favoritos";
-    imgHeart.addEventListener('click', (e) => {
-      e.stopPropagation();
-      removerFavorito(produto.id);
-    });
-
-    div.appendChild(imgHeart);
-
-    // Imagem do produto
-    const imgProduto = document.createElement('div');
-    imgProduto.classList.add('produtos');
-    imgProduto.innerHTML = `<img src='${produto.imagem}' alt='${produto.nome}'>`;
-    div.appendChild(imgProduto);
-
-    // Nome e preço
-    const nome = document.createElement('h3');
-    nome.textContent = produto.nome;
-    div.appendChild(nome);
-
-    const content = document.createElement('div');
-    content.classList.add('content');
-
-    const preco = document.createElement('h2');
-    preco.textContent = produto.preco;
-    content.appendChild(preco);
-
-    const imgCarrinho = document.createElement('img');
-    imgCarrinho.classList.add('compras');
-    imgCarrinho.src = "/eixoauto/eixoautopi/img/Icons/carrinho-branco.png";
-    imgCarrinho.alt = "Ícone do carrinho";
-    imgCarrinho.addEventListener('click', (e) => {
-      e.stopPropagation();
-      adicionarNoCarrinho(produto);
-    });
-
-    content.appendChild(imgCarrinho);
-    div.appendChild(content);
-
-    div.addEventListener('click', () => {
-      apresentar(produto);
+    div.addEventListener('click', (event) => {
+      if (event.target.classList.contains('fav_heart')) {
+        removerFavorito(produto.id);
+        return;
+      } else if (event.target.classList.contains('compras')) {
+        adicionarNoCarrinho(produto);
+        return;
+      } else {
+        apresentar(produto);
+      }
     });
 
     container.appendChild(div);
   });
 }
 
-// Remove produto dos favoritos
+// Função para remover produto dos favoritos
 function removerFavorito(id) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
   favoritos = favoritos.filter(p => p.id !== id);
@@ -181,7 +121,7 @@ function removerFavorito(id) {
   ProdutosFavoritados();
 }
 
-// Adiciona produto ao carrinho
+// Função fictícia: adicionar no carrinho
 function adicionarNoCarrinho(produto) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   carrinho.push(produto);
