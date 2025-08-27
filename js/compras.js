@@ -1,16 +1,16 @@
 function apresentar(produto) {
   if (!produto || !produto.id) {
-    console.error("Produto inválido ou sem ID:", produto);
+    console.warn('Produto inválido ao tentar apresentar:', produto);
     return;
   }
 
-  // Salva localmente se quiser, mas o principal é esse redirecionamento:
   localStorage.setItem('compra', JSON.stringify([produto]));
   console.log('Produto salvo com sucesso no localStorage');
 
-  // Redireciona com ID na URL
+  // Corrigido: agora inclui o ID na URL
   window.location.href = `/eixoauto/eixoautopi/pages/compra.php?id=${produto.id}`;
 }
+
 
 
 // Página de Compras
