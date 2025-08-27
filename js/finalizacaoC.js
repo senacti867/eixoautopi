@@ -48,32 +48,75 @@ pixIcon.addEventListener('click', () => {
     }
 });
 
+const ticketIcon = document.getElementById('boleto')
 
-// Apresentar Produtos selecionados
-function AprsentarProdutos() {
-    const produto = JSON.parse(localStorage.getItem('produtos-compra')) || [];
-    const container = document.getElementById('carrinho');
+ticketIcon.addEventListener('click', () => {
+    ticketIcon.classList.toggle('ativo')
     container.innerHTML = '';
 
-    produto.forEach(produto => {
-        const div = document.createElement('div');
-        div.classList.add('item-carrinho');
+    if (ticketIcon.classList.contains('ativo')) {
+        const div = document.createElement('div')
+        div.classList.add('boleto-info')
+        
         div.innerHTML = `
-      <input type="checkbox" name="select-product" class="select-product" data-id="${produto.id}">
-      <img class="products" src="${produto.imagem}" alt="${produto.nome}">
-      <h2>${produto.nome}</h2>
-      <div class="quantity">
-        <button class="btn"><img class="less" src="/EixoAuto/img/Icons/subtracao-Icon.png" alt=""></button>
-        <div class="qtd">1</div>
-        <button class="btn"><img class="more" src="/EixoAuto/img/Icons/adicao-Icon.png" alt=""></button>
-      </div>
-      <div class="prize">
-        <h1>${produto.preco}</h1>
-      </div>
-    `;
-        container.appendChild(div);
+            <di class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>15 dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>30 dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>45 dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>60 dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>75 dias</span>
+            </div>
+        `
+        container.appendChild(div)
+    }
+});
+
+
+// Apresentar Produtos selecionados
+function mostrarProdutosFinalizacao() {
+    const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
+    const lista = document.getElementById('produtos-container');
+    lista.innerHTML = '';
+
+    if (produtos.length === 0) {
+        lista.innerHTML = '<p>Nenhum produto selecionado.</p>';
+        return;
+    }
+
+    produtos.forEach(prod => {
+        let precoNum = typeof prod.preco === 'string'
+            ? parseFloat(prod.preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
+            : prod.preco;
+
+        const item = document.createElement('div');
+        item.classList.add('produto-finalizacao');
+        item.innerHTML = `
+            <img src="${prod.imagem}" alt="${prod.nome}">
+            <span>${prod.nome}</span>
+            <span>Qtd: ${prod.quantidade || 1}</span>
+            <span>R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
+        `;
+        lista.appendChild(item);
     });
 }
+
 
 function ProdutosValor() {
     let valorTotalCompra = JSON.parseFloat(localStorage.getItem('totalCompra')) || 0;
@@ -145,39 +188,7 @@ function finalizarCompra() {
 
     alert(`Compra finalizada!\n\nEndereço: ${enderecoAtual}\nPagamento: ${pagamento}\nTotal: R$ ${total}`);
 }
-/*
-document.getElementById('pagamento').addEventListener('change', function () {
-    const tipo = this.value;
-    document.getElementById('cartao-info').style.display = (tipo === 'cartao') ? 'block' : 'none';
-});
-*/
 atualizarResumo();
 
-function mostrarProdutosFinalizacao() {
-    const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
-    const lista = document.getElementById('produtos-finalizacao');
-    lista.innerHTML = '';
-
-    if (produtos.length === 0) {
-        lista.innerHTML = '<p>Nenhum produto selecionado.</p>';
-        return;
-    }
-
-    produtos.forEach(prod => {
-        let precoNum = typeof prod.preco === 'string'
-            ? parseFloat(prod.preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
-            : prod.preco;
-
-        const item = document.createElement('div');
-        item.classList.add('produto-finalizacao');
-        item.innerHTML = `
-            <img src="${prod.imagem}" alt="${prod.nome}" style="width:60px;vertical-align:middle;">
-            <span style="margin-left:10px;">${prod.nome}</span>
-            <span style="margin-left:10px;">Qtd: ${prod.quantidade || 1}</span>
-            <span style="margin-left:10px;">R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
-        `;
-        lista.appendChild(item);
-    });
-}
 
 document.addEventListener('DOMContentLoaded', mostrarProdutosFinalizacao);

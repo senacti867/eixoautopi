@@ -1,4 +1,4 @@
-// Carrega produtos do banco e renderiza nos containers
+// Função para carregar produtos do banco e renderizar nos containers
 async function carregarProdutosDoBanco() {
   try {
     const resp1 = await fetch('/eixoauto/eixoautopi/pages/get_produtos.php?limit=3&offset=0');
@@ -29,7 +29,7 @@ function renderizarProdutos(lista, containerClasse) {
       const div = document.createElement('div');
       div.classList.add('produto');
       div.innerHTML = `
-        <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Ícone de favoritos" onclick='favoritar(${JSON.stringify(produto)})'>
+        <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Ícone de favoritos" onclick="favoritar(${JSON.stringify(produto)}, event)">
         <img class="produtos" src="${produto.imagem}" alt="${produto.nome}">
         <a href="#">${produto.nome}</a>
         <h2>${produto.preco}</h2>
@@ -39,10 +39,10 @@ function renderizarProdutos(lista, containerClasse) {
 
       div.addEventListener('click', (event) => {
         if (event.target.closest('img.fav_heart')) {
-          favoritar(produto);
+          favoritar(produto, event);
           return;
         } else {
-          apresentar(produto); // ← produto é passado corretamente
+          apresentar(produto);
         }
       });
 
@@ -51,27 +51,23 @@ function renderizarProdutos(lista, containerClasse) {
   });
 }
 
-// Função para favoritar produtos
-function favoritar(produto) {
+// Função para favoritar/desfavoritar produtos e alterar o ícone do coração
+function favoritar(produto, event) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const coração = event.target; 
+
   if (!favoritos.find(p => p.id === produto.id)) {
     favoritos.push(produto);
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+    coração.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
+  } else {
+    favoritos = favoritos.filter(p => p.id !== produto.id);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+    coração.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
   }
 }
-
-
-function apresentar(produto) {
-  if (!produto || !produto.id) {
-    console.warn('Produto inválido ao tentar apresentar:', produto);
-    return;
-  }
-
-  localStorage.setItem('compra', JSON.stringify([produto]));
-  console.log('Produto salvo com sucesso no localStorage');
-  window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
-}
-
 
 // Função para exibir os produtos favoritados
 function ProdutosFavoritados() {

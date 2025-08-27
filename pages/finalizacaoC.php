@@ -34,7 +34,7 @@
 
         <div class="section">
             <h3>Produtos</h3>
-            <div id="produtos-finalizacao"></div>
+            <div id="produtos-container"></div>
         </div>
 
 
@@ -47,6 +47,7 @@
             <img id="pix" src="/eixoauto/eixoautopi/img/Icons/Pix-Icon.png" alt="Ícone Pix">
             <input type="radio" name="Select-Payment" class="checkbox" id="boleto">
             <img id="boleto" src="/eixoauto/eixoautopi/img/Icons/Ticket-Icon.png" alt="Ícone Boleto">
+            
             <div id="payment"></div>
         </div>
 

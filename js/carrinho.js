@@ -56,6 +56,7 @@ function CarrinhodeProdutos() {
     container.appendChild(div);
   });
 }
+CarrinhodeProdutos()
 
 document.getElementById('carrinho').addEventListener('click', (event) => {
   const qtdDiv = event.target.closest('.qtd');
