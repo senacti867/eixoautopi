@@ -1,3 +1,11 @@
+
+// INICIALIZAÇÃO 
+document.addEventListener('DOMContentLoaded', () => {
+  PaginaDeProdutos();
+  carregarProdutosDoBanco();
+});
+
+
 function apresentar(produto) {
   if (!produto || !produto.id) {
     console.warn('Produto inválido ao tentar apresentar:', produto);
@@ -10,8 +18,11 @@ function apresentar(produto) {
   window.location.href = `/eixoauto/eixoautopi/pages/compra.php?id=${produto.id}`;
 }
 
+
+
 // Página de Compras
 function PaginaDeProdutos() {
+
   const compra = JSON.parse(localStorage.getItem('compra')) || [];
   const container = document.getElementById('produto-compra');
   container.innerHTML = '';
@@ -39,10 +50,8 @@ function PaginaDeProdutos() {
   div.innerHTML = `
       <button class="btn" id="prev">&#10094;</button>
       <div class="img-box">
-        <div class="icon">
-          <img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos" onclick='favoritar(${JSON.stringify(produto)})'>
-        </div>
-        <img src="${imgPath}" alt="${produto.nome}">
+        <div class="icon"><img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos" onclick="favoritar(${JSON.stringify(produto)}, event)"></div>
+        <img src="/eixoauto/eixoautopi/${produto.imagem}" alt="${produto.nome}">
         <h2 class="product-prize">${produto.preco}</h2>
 
         <div class="btn-container">
@@ -66,15 +75,10 @@ function PaginaDeProdutos() {
   container.appendChild(div);
 }
 
-// Botão Compra
-document.addEventListener('click', (event) => {
-  if (event.target.classList.contains('product')) {
-    window.location.href = '/eixoauto/eixoautopi/pages/finalizacaoC.php';
-  }
-});
 
-// Botão Adicionar ao carrinho
-function adicionarNoCarrinho(produto) {
+//Botão Adicionar ao carrinho
+function adicionarNoCarrinho(produto) { //Essa função está funcionando corretamente
+
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   if (!carrinho.find(p => p.id === produto.id)) {
     carrinho.unshift(produto);
@@ -83,11 +87,6 @@ function adicionarNoCarrinho(produto) {
     alert('Produto já está no carrinho!');
   }
 };
-
-// INICIALIZAÇÃO 
-document.addEventListener('DOMContentLoaded', () => {
-  PaginaDeProdutos();
-});
 
 // Buscar ofertas do mesmo produto em outros fornecedores
 if (typeof produto !== "undefined" && produto && produto.codigo) {
@@ -114,35 +113,23 @@ if (typeof produto !== "undefined" && produto && produto.codigo) {
     });
 }
 
-// Salvar produtos selecionados (exemplo)
-const selecionados = typeof produtos !== "undefined" ? produtos.filter(p => p.selecionado) : [];
-if (selecionados.length > 0) {
-  localStorage.setItem('produtos-compra', JSON.stringify(selecionados));
-}
 
-// Finalização da compra
 document.addEventListener('click', (event) => {
-  if (event.target.classList.contains('buy')) {
-    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-    const produtosAcomprar = Array.from(document.querySelectorAll('.select-product:checked'))
-      .map(cb => {
-        const container = cb.closest('.item-carrinho');
-        if (!container) return;
+  if (event.target.classList.contains('product')) {
+    // Seleciona o produto e salva no localStorage
+    const produto = JSON.parse(localStorage.getItem('compra'))[0];  // Pega o produto atual
+    if (!produto) {
+      alert('Produto não encontrado!');
+      return;
+    }
+    // Salva o produto no localStorage para a finalização
+    localStorage.setItem('produtos-compra', JSON.stringify(produto));
 
-        const nome = container.querySelector('h2').textContent.trim();
-        const produto = carrinho.find(p => p.nome === nome);
-        if (!produto) return;
-        const qtd = parseInt(container.querySelector('.qtd').textContent.trim(), 10) || 1;
-        return { ...produto, quantidade: qtd };
-      }).filter(p => p !== undefined);
 
-    localStorage.setItem('produtos-compra', JSON.stringify(produtosAcomprar));
-
-    let total = typeof FinalizacaoCompra === "function" ? FinalizacaoCompra() : 0;
-    if (total > 0) {
+    if (produto.length > 0) {
       window.location.href = '/eixoauto/eixoautopi/pages/finalizacaoC.php';
     } else {
-      alert('Nenhum produto foi selecionado. Selecione no mínimo um produto para finalizar a compra.');
+      alert('Selecione ao menos um produto para finalizar a compra.');
     }
   }
 });

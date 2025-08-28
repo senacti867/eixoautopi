@@ -10,6 +10,27 @@ function adicionarNoCarrinho(produto) {
   }
 };
 
+// Função para Adicionar/retirar produtos e alterar o ícone do coração
+function adicionarNoCarrinho(produto, event) {
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+  const IconCarrinho = event.target;
+
+  if (!carrinho.find(p => p.id === produto.id)) {
+    carrinho.push(produto);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    IconCarrinho.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
+
+  } else {
+    carrinho = carrinho.filter(p => p.id !== produto.id);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    IconCarrinho.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
+  }
+}
+
+
+
 // Função para exibir os produtos no carrinho
 function CarrinhodeProdutos() {
   const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
@@ -56,6 +77,7 @@ function CarrinhodeProdutos() {
     container.appendChild(div);
   });
 }
+CarrinhodeProdutos()
 
 document.getElementById('carrinho').addEventListener('click', (event) => {
   const qtdDiv = event.target.closest('.qtd');
