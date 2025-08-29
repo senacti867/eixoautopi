@@ -12,8 +12,10 @@ $sql = "SELECT
             Pro_Preco as preco, 
             Pro_LinkProduto as link, 
             Pro_CodigoOriginal as codigo, 
-            Pro_Imagem as imagem 
+            Pro_Imagem as imagem,
+            Pro_Categoria as categoria
         FROM tb_produto";
+
 
 if ($limit > 0) {
     $sql .= " LIMIT $limit OFFSET $offset";
