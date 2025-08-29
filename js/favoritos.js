@@ -29,7 +29,7 @@ function renderizarProdutos(lista, containerId) {
     const div = document.createElement('div');
     div.classList.add('produto');
     div.innerHTML = `
-      <img class="fav_heart" alt="Ícone de favoritos" onclick='favoritar(${JSON.stringify(produto)}, event)'>
+      <img class="fav_heart" alt="Ícone de favoritos">
       <img class="produtos" src="${produto.imagem}" alt="${produto.nome}">
       <a href="#">${produto.nome}</a>
       <h2>${produto.preco}</h2>

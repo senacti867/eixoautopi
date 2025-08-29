@@ -40,7 +40,7 @@ function PaginaDeProdutos() {
       <button class="btn" id="prev">&#10094;</button>
       <div class="img-box">
         <div class="icon">
-          <img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos" onclick='favoritar(${JSON.stringify(produto)})'>
+          <img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos">
         </div>
         <img src="${imgPath}" alt="${produto.nome}">
         <h2 class="product-prize">${produto.preco}</h2>
@@ -63,7 +63,31 @@ function PaginaDeProdutos() {
         </div>
       </div> 
     `;
+
+  div.addEventListener('click', (event) => {
+    if (event.target.id === 'fav-heart' ) {
+      favoritar(produto, event);
+      return;
+    }
+  })
+  
   container.appendChild(div);
+}
+
+// Função para favoritar/desfavoritar produtos
+function favoritar(produto, event) {
+  let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const coracao = event.target;
+
+  if (!favoritos.find(p => p.id === produto.id)) {
+    favoritos.unshift(produto);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    coracao.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
+  } else {
+    favoritos = favoritos.filter(p => p.id !== produto.id);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    coracao.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
+  }
 }
 
 // Botão Compra
@@ -146,4 +170,3 @@ document.addEventListener('click', (event) => {
     }
   }
 });
- 
