@@ -10,11 +10,11 @@ cartaoIcon.addEventListener('click', () => {
         div.classList.add('cartao-info')
         div.innerHTML = `
             <label for="numero-cartao">Número do Cartão:</label>
-            <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000">
+            <input type="text" class="card-not-null" id="numero-cartao" placeholder="0000 0000 0000 0000">
             <label for="validade">Validade:</label>
-            <input type="text" id="validade" placeholder="MM/AA">
+            <input type="text" class="card-not-null" id="validade" placeholder="MM/AA">
             <label for="cvv">CVV:</label>
-            <input type="text" id="cvv" placeholder="123">
+            <input type="text" class="card-not-null" id="cvv" placeholder="123">
         `
         container.appendChild(div)
     }
@@ -31,49 +31,85 @@ pixIcon.addEventListener('click', () => {
         const div = document.createElement('div')
         div.classList.add('pix-info')
 
-        const randomPixCode = Math.random() *10
         div.innerHTML = `
-        <img id="Pix-QR" src="/EixoAuto/img/Icons/QrCode-wts.jpeg" alt="Qr-Code Pix">
+        <img id="Pix-QR" src="/eixoauto/eixoautopi/img/Icons/Pix-Qr.jpeg" alt="Qr-Code Pix">
         <div class="Code-container">
-            <div id="Pix-Code">${randomPixCode}</div>
-            <button id="Copy-btn"><img src="/EixoAuto/img/Icons/Copy-icon.png" alt=""></button>
+            <div id="Pix-Code">00020126580014BR.GOV.BCB.PIX0136bfa69947-b17a-459e-8524-83261be90aef5204000053039865802BR5925Jhennyfer Kamilli Moura R6009SAO PAULO62140510ZYY84sZjRj6304756B</div>
         </div>
         `
         container.appendChild(div)
+    }
+});
 
-        div.getElementById('Copy-btn').addEventListener('click', () =>{
-            const PixCode = document.getElementById('Pix-Code').textContent
-            navigator.clipboard.writeText(PixCode)
-        })
+const ticketIcon = document.getElementById('boleto')
+
+ticketIcon.addEventListener('click', () => {
+    ticketIcon.classList.toggle('ativo')
+    container.innerHTML = '';
+
+    if (ticketIcon.classList.contains('ativo')) {
+        const div = document.createElement('div')
+        div.classList.add('boleto-info')
+
+        div.innerHTML = `
+            <di class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>28 Dias </span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span> 30 - 60 Dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>28 - 42 - 56 Dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>15 - 30 - 45 - 60 Dias</span>
+            </div>
+
+            <div class = 'select-time'>
+                <input type="radio" name="selectTime" class="time-selector">
+                <span>30 - 60 - 90 Dias</span>
+            </div>
+        `
+        container.appendChild(div)
     }
 });
 
 
 // Apresentar Produtos selecionados
-function AprsentarProdutos() {
-    const produto = JSON.parse(localStorage.getItem('produtos-compra')) || [];
-    const container = document.getElementById('carrinho');
-    container.innerHTML = '';
+function mostrarProdutosFinalizacao() {
+    const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
+    const lista = document.getElementById('produtos-container');
+    lista.innerHTML = '';
 
-    produto.forEach(produto => {
-        const div = document.createElement('div');
-        div.classList.add('item-carrinho');
-        div.innerHTML = `
-      <input type="checkbox" name="select-product" class="select-product" data-id="${produto.id}">
-      <img class="products" src="${produto.imagem}" alt="${produto.nome}">
-      <h2>${produto.nome}</h2>
-      <div class="quantity">
-        <button class="btn"><img class="less" src="/EixoAuto/img/Icons/subtracao-Icon.png" alt=""></button>
-        <div class="qtd">1</div>
-        <button class="btn"><img class="more" src="/EixoAuto/img/Icons/adicao-Icon.png" alt=""></button>
-      </div>
-      <div class="prize">
-        <h1>${produto.preco}</h1>
-      </div>
-    `;
-        container.appendChild(div);
+    if (produtos.length === 0) {
+        lista.innerHTML = '<p>Nenhum produto selecionado.</p>';
+        return;
+    }
+
+    produtos.forEach(prod => {
+        let precoNum = typeof prod.preco === 'string'
+            ? parseFloat(prod.preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
+            : prod.preco;
+
+        const item = document.createElement('div');
+        item.classList.add('produto-finalizacao');
+        item.innerHTML = `
+            <img src="${prod.imagem}" alt="${prod.nome}">
+            <span>${prod.nome}</span>
+            <span>Qtd: ${prod.quantidade || 1}</span>
+            <span>R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
+        `;
+        lista.appendChild(item);
     });
 }
+
 
 function ProdutosValor() {
     let valorTotalCompra = JSON.parseFloat(localStorage.getItem('totalCompra')) || 0;
@@ -139,45 +175,23 @@ function salvarNovoEndereco() {
     }
 }
 
-function finalizarCompra() {
-    const pagamento = document.getElementById('pagamento').value;
-    const total = produtos.reduce((soma, p) => soma + p.preco, 0).toFixed(2);
+let btn = document.getElementById('btn-buy')
 
-    alert(`Compra finalizada!\n\nEndereço: ${enderecoAtual}\nPagamento: ${pagamento}\nTotal: R$ ${total}`);
-}
-/*
-document.getElementById('pagamento').addEventListener('change', function () {
-    const tipo = this.value;
-    document.getElementById('cartao-info').style.display = (tipo === 'cartao') ? 'block' : 'none';
-});
-*/
+btn.addEventListener('click', () => {
+    const container = document.querySelector('.payment')
+    const cartaoInfo = container.querySelectorAll('.card-not-null')
+    const boletoInfo = container.querySelectorAll('.time-selector')
+
+    if (cartaoInfo != "" || boletoInfo != "") {
+        alert('Compra finalizada!');
+        window.location.href='/eixoauto/eixoautopi/pages/index.php';
+    } else {
+        alert('Dados incompletos. Preencha todos os campos obrigatórios antes de finalizar a ação')
+    }
+})
+
+
 atualizarResumo();
 
-function mostrarProdutosFinalizacao() {
-    const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
-    const lista = document.getElementById('produtos-finalizacao');
-    lista.innerHTML = '';
-
-    if (produtos.length === 0) {
-        lista.innerHTML = '<p>Nenhum produto selecionado.</p>';
-        return;
-    }
-
-    produtos.forEach(prod => {
-        let precoNum = typeof prod.preco === 'string'
-            ? parseFloat(prod.preco.replace('R$', '').replace(/\./g, '').replace(',', '.').trim())
-            : prod.preco;
-
-        const item = document.createElement('div');
-        item.classList.add('produto-finalizacao');
-        item.innerHTML = `
-            <img src="${prod.imagem}" alt="${prod.nome}" style="width:60px;vertical-align:middle;">
-            <span style="margin-left:10px;">${prod.nome}</span>
-            <span style="margin-left:10px;">Qtd: ${prod.quantidade || 1}</span>
-            <span style="margin-left:10px;">R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
-        `;
-        lista.appendChild(item);
-    });
-}
 
 document.addEventListener('DOMContentLoaded', mostrarProdutosFinalizacao);

@@ -3,6 +3,7 @@ body {
     background-color: #F3F4F7;
     margin: 0;
     padding: 0px;
+    
 }
 
 /*HEADER*/
@@ -79,6 +80,10 @@ input{
     width: 20px;
 }
 
+#payment{
+    margin-top: 20px;
+}
+
 #Pix-QR{
     width: 30%;
     height: 300px;
@@ -109,6 +114,7 @@ input{
     width: 60%;
     object-fit: contain;
 }
+
 
 #aplicar-cupom{
     width: 17%;
@@ -157,4 +163,34 @@ button:hover {
 
 .btn-alterar:hover {
     background-color: #b80000;
+}
+
+/*Produtos*/
+
+.produto-finalizacao{
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.produto-finalizacao img{
+    width: 110px;
+    vertical-align: middle;
+}
+
+.produto-finalizacao span{
+    text-align: center;
+    margin-left:10px;
+}
+
+.boleto-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.time-selector{
+    width: 20px;
 }

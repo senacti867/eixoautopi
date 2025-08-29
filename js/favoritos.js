@@ -1,4 +1,4 @@
-// Carrega produtos do banco e renderiza nos containers
+// Função para carregar produtos do banco e renderizar nos containers
 async function carregarProdutosDoBanco() {
   try {
     const resp1 = await fetch('/eixoauto/eixoautopi/pages/get_produtos.php?limit=3&offset=0');
@@ -19,6 +19,15 @@ async function carregarProdutosDoBanco() {
 
 carregarProdutosDoBanco();
 
+function atualizarIconeFavorito(produto, imgElement) {
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const estaFavoritado = favoritos.some(p => p.id === produto.id);
+
+  imgElement.src = estaFavoritado
+    ? "/eixoauto/eixoautopi/img/Icons/heart-checked.png"
+    : "/eixoauto/eixoautopi/img/Icons/heart.png";
+}
+
 // Renderiza os produtos nos containers especificados
 function renderizarProdutos(lista, containerClasse) {
   const containers = document.querySelectorAll(`.${containerClasse}`);
@@ -28,48 +37,26 @@ function renderizarProdutos(lista, containerClasse) {
     lista.forEach(produto => {
       const div = document.createElement('div');
       div.classList.add('produto');
+      div.innerHTML = `
+        <img class="fav_heart" alt="Ícone de favoritos" onclick="favoritar(${JSON.stringify(produto)}, event)">
+        <img class="produtos" src="${produto.imagem}" alt="${produto.nome}">
+        <a href="#">${produto.nome}</a>
+        <h2>${produto.preco}</h2>
+      `;
 
-      // Cria o coração
-      const imgHeart = document.createElement('img');
-      imgHeart.classList.add('fav_heart');
-      imgHeart.alt = 'Ícone de favoritos';
-
-      // Define src inicial conforme localStorage
-      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-      imgHeart.src = favoritos.find(p => p.id === produto.id)
-        ? "/eixoauto/eixoautopi/img/Icons/heart-checked.png"
-        : "/eixoauto/eixoautopi/img/Icons/heart.png";
-
-      // Evento de clique no coração
-      imgHeart.addEventListener('click', (e) => {
-        e.stopPropagation(); // evita abrir o produto
-        favoritar(produto, imgHeart);
-      });
-
-      div.appendChild(imgHeart);
-
-      // Adiciona a imagem do produto
-      const imgProduto = document.createElement('img');
-      imgProduto.classList.add('produtos');
-      imgProduto.src = produto.imagem;
-      imgProduto.alt = produto.nome;
-      div.appendChild(imgProduto);
-
-      // Nome e preço
-      const nome = document.createElement('a');
-      nome.href = "#";
-      nome.textContent = produto.nome;
-      div.appendChild(nome);
-
-      const preco = document.createElement('h2');
-      preco.textContent = produto.preco;
-      div.appendChild(preco);
+      const coracao = div.querySelector('.fav_heart');
+      atualizarIconeFavorito(produto, coracao);
 
       div.style.cursor = 'pointer';
 
-      // Clique no container abre a página do produto
-      div.addEventListener('click', () => {
-        apresentar(produto);
+      div.addEventListener('click', (event) => {
+        if (event.target.closest('img.fav_heart')) {
+          favoritar(produto, event);
+          atualizarIconeFavorito(produto, coracao)
+          return;
+        } else {
+          apresentar(produto);
+        }
       });
 
       container.appendChild(div);
@@ -77,40 +64,38 @@ function renderizarProdutos(lista, containerClasse) {
   });
 }
 
-// Função para favoritar/desfavoritar produtos
-function favoritar(produto, imgElement) {
+// Função para favoritar/desfavoritar produtos e alterar o ícone do coração
+function favoritar(produto, event) {
   let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-  const index = favoritos.findIndex(p => p.id === produto.id);
+  const coracao = event.target;
 
-  if (index === -1) {
-    favoritos.push(produto);
-    imgElement.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
+  if (!favoritos.find(p => p.id === produto.id)) {
+    favoritos.unshift(produto);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+    coracao.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
+
   } else {
-    favoritos.splice(index, 1);
-    imgElement.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
-  }
+    favoritos = favoritos.filter(p => p.id !== produto.id);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
 
+    coracao.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
+  }
+}
+
+// Função para remover produto dos favoritos
+function removerFavorito(id) {
+  let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  favoritos = favoritos.filter(p => p.id !== id);
   localStorage.setItem('favoritos', JSON.stringify(favoritos));
-
-  // Atualiza a lista de favoritos se estiver na página de favoritos
-  if (document.getElementById('favoritos-container')) {
-    ProdutosFavoritados();
-  }
+  ProdutosFavoritados();
 }
 
-function apresentar(produto) {
-  if (!produto || !produto.id) {
-    console.warn('Produto inválido ao tentar apresentar:', produto);
-    return;
-  }
 
-  localStorage.setItem('compra', JSON.stringify([produto]));
-  window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
-}
-
-// Exibe os produtos favoritados
+// Função para exibir os produtos favoritados
 function ProdutosFavoritados() {
   const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   const container = document.getElementById('favoritos-container');
   container.innerHTML = '';
 
@@ -120,74 +105,57 @@ function ProdutosFavoritados() {
   }
 
   favoritos.forEach((produto) => {
+
     const div = document.createElement('div');
     div.classList.add('produto');
 
-    // Coração para remover favorito
-    const imgHeart = document.createElement('img');
-    imgHeart.classList.add('fav_heart');
-    imgHeart.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
-    imgHeart.alt = "Ícone de favoritos";
-    imgHeart.addEventListener('click', (e) => {
-      e.stopPropagation();
-      removerFavorito(produto.id);
-    });
+    const noCarrinho = carrinho.find(p => p.id === produto.id);
 
-    div.appendChild(imgHeart);
+    // Escolhe a imagem do carrinho de acordo com o status
+    const carrinhoImgSrc = noCarrinho
+      ? "/eixoauto/eixoautopi/img/Icons/carrinho-preenchido.png"
+      : "/eixoauto/eixoautopi/img/Icons/carrinho-branco.png";
 
-    // Imagem do produto
-    const imgProduto = document.createElement('div');
-    imgProduto.classList.add('produtos');
-    imgProduto.innerHTML = `<img src='${produto.imagem}' alt='${produto.nome}'>`;
-    div.appendChild(imgProduto);
+    div.innerHTML = `
+      <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Ícone de favoritos" onclick="removerFavorito(${produto.id})">
+      <div class='produtos'><img src='${produto.imagem}' alt='${produto.nome}'></div>
+      <h3>${produto.nome}</h3>
+      <div class='content'>
+        <h2>${produto.preco}</h2>
+        <img class="compras" src="${carrinhoImgSrc}" alt="Ícone do carrinho"">
+      </div>
+    `;
 
-    // Nome e preço
-    const nome = document.createElement('h3');
-    nome.textContent = produto.nome;
-    div.appendChild(nome);
-
-    const content = document.createElement('div');
-    content.classList.add('content');
-
-    const preco = document.createElement('h2');
-    preco.textContent = produto.preco;
-    content.appendChild(preco);
-
-    const imgCarrinho = document.createElement('img');
-    imgCarrinho.classList.add('compras');
-    imgCarrinho.src = "/eixoauto/eixoautopi/img/Icons/carrinho-branco.png";
-    imgCarrinho.alt = "Ícone do carrinho";
-    imgCarrinho.addEventListener('click', (e) => {
-      e.stopPropagation();
-      adicionarNoCarrinho(produto);
-    });
-
-    content.appendChild(imgCarrinho);
-    div.appendChild(content);
-
-    div.addEventListener('click', () => {
-      apresentar(produto);
+    div.addEventListener('click', (event) => {
+      if (event.target.classList.contains('fav_heart')) {
+        removerFavorito(produto.id);
+        return;
+      } else if (event.target.classList.contains('compras')) {
+        adicionarNoCarrinho(produto, event);
+        window.location.reload(true)
+        return;
+      } else {
+        apresentar(produto);
+      }
     });
 
     container.appendChild(div);
   });
 }
 
-// Remove produto dos favoritos
-function removerFavorito(id) {
-  let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-  favoritos = favoritos.filter(p => p.id !== id);
-  localStorage.setItem('favoritos', JSON.stringify(favoritos));
-  ProdutosFavoritados();
-}
-
-// Adiciona produto ao carrinho
-function adicionarNoCarrinho(produto) {
+// Função de adicionar no carrinho
+function adicionarNoCarrinho(produto, event) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  carrinho.push(produto);
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-  console.log('Produto adicionado ao carrinho:', produto.nome);
-}
+  const imgElement = event.target;
+
+  if (!carrinho.find(p => p.id === produto.id)) {
+    carrinho.unshift(produto); //Push do produto no início da array
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  } else {
+    carrinho = carrinho.filter(p => p.id !== produto.id);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+  }
+};
 
 // Inicializa os produtos favoritados na página
 ProdutosFavoritados();
