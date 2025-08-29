@@ -108,9 +108,10 @@ function mostrarProdutosFinalizacao() {
         `;
         lista.appendChild(item);
     });
+    
 }
 
-
+/*
 function ProdutosValor() {
     let valorTotalCompra = JSON.parseFloat(localStorage.getItem('totalCompra')) || 0;
     const totalEl = document.getElementById('valor-total');
@@ -125,7 +126,7 @@ function ProdutosValor() {
 
     totalEl.textContent = `Total: R$ ${valorTotalCompra.toFixed(2).replace('.', ',')}`;
 }
-
+*/
 
 // Endereço inicial
 let enderecoAtual = "Rua Exemplo, 123 - Bairro - Cidade/UF";
@@ -178,15 +179,30 @@ function salvarNovoEndereco() {
 let btn = document.getElementById('btn-buy')
 
 btn.addEventListener('click', () => {
-    const container = document.querySelector('.payment')
+    const container = document.getElementById('payment')
     const cartaoInfo = container.querySelectorAll('.card-not-null')
     const boletoInfo = container.querySelectorAll('.time-selector')
 
-    if (cartaoInfo != "" || boletoInfo != "") {
-        alert('Compra finalizada!');
-        window.location.href='/eixoauto/eixoautopi/pages/index.php';
+    let cartaoInfoFilled = false
+    let boletoInfoFilled = false
+
+    cartaoInfo.forEach(element => {
+        if (element.value && element.value.trim() != " ") {
+            cartaoInfoFilled = true;
+        }
+    })
+
+    boletoInfo.forEach(element => {
+        if (element.value && element.value.trim() != " ") {
+            boletoInfoFilled = true;
+        }
+    })
+
+    if (cartaoInfoFilled === true || boletoInfoFilled === true) {
+        alert('Compra realizada!')
+        window.location.href = "/eixoauto/eixoautopi/pages/index.php"
     } else {
-        alert('Dados incompletos. Preencha todos os campos obrigatórios antes de finalizar a ação')
+        alert("Compra não realizada. Selecione e efetue o pagamento antes de concluir a ação")
     }
 })
 

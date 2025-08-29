@@ -50,7 +50,6 @@
     </div>
 
     <div class="container">
-
         <!-- Cards de Categorias -->
         <div class="cards">
             <a href="#motor-category" class="category">

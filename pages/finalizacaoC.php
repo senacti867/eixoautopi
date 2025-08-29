@@ -50,12 +50,12 @@
             
             <div id="payment"></div>
         </div>
-
+<!-- 
         <div class="section">
             <h3>Cupom</h3>
             <input id="cupom-code" type="text" placeholder="Insira o código do Cupom">
             <button id="aplicar-cupom">Aplicar</button>
-        </div>
+        </div> -->
 
         <!-- Produtos -->
         <div class="section">
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Botão de Finalizar -->
-        <button id="btn-buy" onclick="finalizarCompra()">Comprar</button>
+        <button id="btn-buy">Comprar</button>
     </div>
 
     <script src="/eixoauto/eixoautopi/js/finalizacaoC.js"></script>
