@@ -15,9 +15,38 @@ function apresentar(produto) {
   localStorage.setItem('compra', JSON.stringify([produto]));
   console.log('Produto salvo com sucesso no localStorage');
 
+  // Corrigido: agora inclui o ID na URL
   window.location.href = `/eixoauto/eixoautopi/pages/compra.php?id=${produto.id}`;
 }
 
+//Função de Favoritar 
+function favoritar(produto, event) {
+  let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const coracao = event.target;
+
+  if (!favoritos.find(p => p.id === produto.id)) {
+    favoritos.unshift(produto);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+    coracao.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
+
+  } else {
+    favoritos = favoritos.filter(p => p.id !== produto.id);
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+    coracao.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
+  }
+}
+
+// Função para alterar o icone favoritos
+function atualizarIconeFavorito(produto, imgElement) {
+  const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  const estaFavoritado = favoritos.some(p => p.id === produto.id);
+
+  imgElement.src = estaFavoritado
+    ? "/eixoauto/eixoautopi/img/Icons/heart-checked.png"
+    : "/eixoauto/eixoautopi/img/Icons/heart.png";
+}
 
 
 // Página de Compras
@@ -33,34 +62,20 @@ function PaginaDeProdutos() {
   }
 
   const produto = compra[0];
-  console.log("Produto imagem recebido:", produto.imagem);
-
-  // Normalizar caminho da imagem
-  let imgPath = produto.imagem;
-  if (imgPath.startsWith("/eixoauto/eixoautopi/")) {
-    // já vem completo -> não mexe
-  } else if (imgPath.startsWith("img/")) {
-    imgPath = "/eixoauto/eixoautopi/" + imgPath;
-  } else {
-    imgPath = "/eixoauto/eixoautopi/img/Produtos/" + imgPath;
-  }
-
   const div = document.createElement('div');
   div.classList.add('product-container');
   div.innerHTML = `
-      <button class="btn" id="prev">&#10094;</button>
       <div class="img-box">
-        <div class="icon"><img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos" onclick="favoritar(${JSON.stringify(produto)}, event)"></div>
+        <div class="icon"><img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos" onclick="favoritar(${JSON.stringify(produto)}, event)"></div>
         <img src="/eixoauto/eixoautopi/${produto.imagem}" alt="${produto.nome}">
         <h2 class="product-prize">${produto.preco}</h2>
-
+  
         <div class="btn-container">
           <button class="product">Comprar</button>
           <button onclick='adicionarNoCarrinho(${JSON.stringify(produto)})'>Adicionar ao carrinho</button>
         </div>
       </div>
-      <button class="btn" id="next">&#10095;</button>
-
+  
       <div class="info-section">
         <div class="top-row">
           <img class="logo" src="" alt="">
@@ -72,24 +87,32 @@ function PaginaDeProdutos() {
         </div>
       </div> 
     `;
+
+  div.addEventListener('click', (event) => {
+    if (event.target.closest('img.fav_heart')) {
+      favoritar(produto, event);
+      atualizarIconeFavorito(produto, coracao)
+      return;
+    }
+  })
+
+
   container.appendChild(div);
 }
 
-
 //Botão Adicionar ao carrinho
 function adicionarNoCarrinho(produto) { //Essa função está funcionando corretamente
-
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   if (!carrinho.find(p => p.id === produto.id)) {
-    carrinho.unshift(produto);
+    carrinho.unshift(produto); //Push do produto no início da array
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   } else {
-    alert('Produto já está no carrinho!');
+    alert('Produto já está no carrinho!'); //Caso o produto já esteja no arquivo JSON
   }
 };
 
 // Buscar ofertas do mesmo produto em outros fornecedores
-if (typeof produto !== "undefined" && produto && produto.codigo) {
+if (produto && produto.codigo) {
   fetch(`/eixoauto/eixoautopi/pages/get_ofertas_produto.php?codigo=${encodeURIComponent(produto.codigo)}`)
     .then(res => res.json())
     .then(ofertas => {
@@ -113,7 +136,6 @@ if (typeof produto !== "undefined" && produto && produto.codigo) {
     });
 }
 
-
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('product')) {
     // Seleciona o produto e salva no localStorage
@@ -125,7 +147,6 @@ document.addEventListener('click', (event) => {
     // Salva o produto no localStorage para a finalização
     localStorage.setItem('produtos-compra', JSON.stringify(produto));
 
-
     if (produto.length > 0) {
       window.location.href = '/eixoauto/eixoautopi/pages/finalizacaoC.php';
     } else {
@@ -133,3 +154,5 @@ document.addEventListener('click', (event) => {
     }
   }
 });
+
+

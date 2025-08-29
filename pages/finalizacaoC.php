@@ -65,7 +65,7 @@
         </div>
 
         <!-- Botão de Finalizar -->
-        <button onclick="finalizarCompra()">Comprar</button>
+        <button id="btn-buy" onclick="finalizarCompra()">Comprar</button>
     </div>
 
     <script src="/eixoauto/eixoautopi/js/finalizacaoC.js"></script>

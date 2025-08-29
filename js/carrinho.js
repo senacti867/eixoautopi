@@ -2,33 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
   CarrinhodeProdutos();
 })
 
-function adicionarNoCarrinho(produto) {
-  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  if (!carrinho.find(p => p.id === produto.id)) {
-    carrinho.unshift(produto); //Push do produto no início da array
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-  }
-};
-
-// Função para Adicionar/retirar produtos e alterar o ícone do coração
 function adicionarNoCarrinho(produto, event) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   const IconCarrinho = event.target;
 
   if (!carrinho.find(p => p.id === produto.id)) {
-    carrinho.push(produto);
+    carrinho.unshift(produto); //Push do produto no início da array
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
-    IconCarrinho.src = "/eixoauto/eixoautopi/img/Icons/heart-checked.png";
-
+    IconCarrinho.src = "/eixoauto/eixoautopi/img/Icons/carrinho-branco.png";
   } else {
     carrinho = carrinho.filter(p => p.id !== produto.id);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
-    IconCarrinho.src = "/eixoauto/eixoautopi/img/Icons/heart.png";
+    IconCarrinho.src = "/eixoauto/eixoautopi/img/Icons/carrinho-preenchido.png";
   }
-}
-
+};
 
 
 // Função para exibir os produtos no carrinho
@@ -66,7 +55,7 @@ function CarrinhodeProdutos() {
         event.stopPropagation();
         SelectProducts();
         return;
-      } else if (event.target.closest('.btn') || event.target.closest('.qtd') ) {
+      } else if (event.target.closest('.btn') || event.target.closest('.qtd')) {
         QtdPreco(event);
         return;
       } else {
