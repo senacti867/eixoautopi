@@ -145,13 +145,21 @@ ProdutosFavoritados();
 
 // Filtrar e renderizar por categoria
 function renderizarCategorias(produtos) {
-  const motores = produtos.filter(p => p.categoria === 'Motor');
-  const transmissoes = produtos.filter(p => p.categoria === 'Transmissão');
-  const suspensoes = produtos.filter(p => p.categoria === 'Suspensao');
-  const freios = produtos.filter(p => p.categoria === 'Freio');
+  const motores = produtos.filter(p => p.categoria === 'Motor').slice(0, 5);
+  const transmissoes = produtos.filter(p => p.categoria === 'Transmissão').slice(0, 5);
+  const suspensoes = produtos.filter(p => p.categoria === 'Suspensao').slice(0, 5);
+  const freios = produtos.filter(p => p.categoria === 'Freio').slice(0, 5);
 
+  // Limpa containers antes de renderizar
+  document.getElementById('motor-category').innerHTML = "";
+  document.getElementById('transmission-category').innerHTML = "";
+  document.getElementById('suspension-category').innerHTML = "";
+  document.getElementById('freio-category').innerHTML = "";
+
+  // Renderiza no máximo 5 de cada categoria
   renderizarProdutos(motores, 'motor-category');
   renderizarProdutos(transmissoes, 'transmission-category');
   renderizarProdutos(suspensoes, 'suspension-category');
   renderizarProdutos(freios, 'freio-category');
 }
+
