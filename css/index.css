@@ -260,7 +260,7 @@ ul {
 }
 
 .fluid-linear-container {
-    width: 80%;
+    width: 100%;
     display: flex;
     background-color: #D6E0EA;
     box-shadow: 0 5px 9px rgba(0, 0, 0, 0.2);
