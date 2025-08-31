@@ -34,7 +34,7 @@ function CarrinhodeProdutos() {
         <button class="btn"><img class="more" src="/eixoauto/eixoautopi/img/Icons/adicao-Icon.png" alt=""></button>
       </div>
       <div class="prize">
-        <h1>${produto.preco}</h1>
+        <h1> ${produto.preco}</h1>
       </div>
     `;
 
@@ -207,7 +207,7 @@ function QtdPreco(event) {
   qtd.textContent = quantidadeAtual;
 
   const total = quantidadeAtual * precoInicial;
-  preco.textContent = total.toFixed(2).replace('.', ',');
+  preco.textContent = `R$ ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
 
   FinalizacaoCompra();
 }

@@ -37,20 +37,17 @@ function PaginaDeProdutos() {
   const div = document.createElement('div');
   div.classList.add('product-container');
   div.innerHTML = `
-      <button class="btn" id="prev">&#10094;</button>
       <div class="img-box">
         <div class="icon">
           <img id="fav-heart" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Icone de Favoritos">
         </div>
         <img src="${imgPath}" alt="${produto.nome}">
-        <h2 class="product-prize">${produto.preco}</h2>
+        <h2 class="product-prize"> ${produto.preco}</h2>
 
         <div class="btn-container">
-          <button class="product">Comprar</button>
           <button onclick='adicionarNoCarrinho(${JSON.stringify(produto)})'>Adicionar ao carrinho</button>
         </div>
       </div>
-      <button class="btn" id="next">&#10095;</button>
 
       <div class="info-section">
         <div class="top-row">

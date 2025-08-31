@@ -1,3 +1,11 @@
+function apresentar(produto) {
+  if (!produto) return;
+  localStorage.setItem('compra', JSON.stringify([produto]));
+  console.log('Produto salvo com sucesso no localStorage');
+  window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
+}
+
+
 const cartaoIcon = document.getElementById('cartao')
 const container = document.getElementById('payment')
 
@@ -101,7 +109,7 @@ function mostrarProdutosFinalizacao() {
         const item = document.createElement('div');
         item.classList.add('produto-finalizacao');
         item.innerHTML = `
-            <img src="${prod.imagem}" alt="${prod.nome}">
+            <img class="product-img" src="${prod.imagem}" alt="${prod.nome}">
             <span>${prod.nome}</span>
             <span>Qtd: ${prod.quantidade || 1}</span>
             <span>R$ ${precoNum.toFixed(2).replace('.', ',')}</span>
@@ -112,7 +120,7 @@ function mostrarProdutosFinalizacao() {
 }
 
 /*
-function ProdutosValor() {
+function Cupom() {
     let valorTotalCompra = JSON.parseFloat(localStorage.getItem('totalCompra')) || 0;
     const totalEl = document.getElementById('valor-total');
     const cupom = document.getElementById('cupom-input')
@@ -155,7 +163,7 @@ function atualizarResumo() {
         lista.appendChild(item);
     });
 
-    totalEl.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    totalEl.textContent = `Total:  ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
 }
 
 function mostrarFormularioEndereco() {

@@ -34,6 +34,8 @@ header {
 .container{
     width:70%;
     min-height: 100vh;
+    margin-top: 50px;
+    margin-bottom: 30px;
 }
 
 .favorites-box{
@@ -47,6 +49,7 @@ header {
     justify-content: flex-start;
     gap: 20px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .produto {
@@ -88,12 +91,6 @@ header {
     height: 100%;
 }
 
-p {
-    display: flex;
-    font-size: 1em;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: justify;
-}
 
 h3{
     text-align: center;
@@ -122,6 +119,97 @@ h2{
     filter: invert(100%);
     cursor: pointer;
 }
+
+/*Footer*/
+
+footer {
+    width: 100%;
+    background-color: #111317;
+    color: #fff;
+    padding: 40px 0;
+}
+
+.footer-info img {
+    max-width: 100%;
+    width: 130px;
+    height: auto;
+  }
+  
+
+/* Container do footer */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilo das seções dentro do footer */
+.footer-info, .footer-links, .footer-social {
+    width: 30%;
+}
+
+.footer-info image {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.footer-info p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-links h3, .footer-social h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-links ul, .footer-social ul {
+    list-style: none;
+    display: block;
+}
+
+.footer-links li, .footer-social li {
+    margin-bottom: 8px;
+}
+
+.footer-links a, .footer-social a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para o rodapé inferior */
+.footer-bottom {
+    text-align: center;
+    background-color: #333;
+    padding: 15px 0;
+}
+
+.footer-bottom p {
+    font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-info, .footer-links, .footer-social {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+
 
 /*RESPONSIVIDADE*/
 

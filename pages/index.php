@@ -32,7 +32,7 @@
                     </li>
                     <li>
                         <a href="/eixoauto/eixoautopi/pages/favoritos.php">
-                            <img class="icons" src="/eixoauto/eixoautopi/img/Icons/heart.png" alt="Favoritos">
+                            <img class="icons" src="/eixoauto/eixoautopi/img/Icons/heart-branco.png" alt="Favoritos">
                         </a>
                     </li>
                 </ul>
@@ -98,16 +98,15 @@
             <div class="fluid-linear-container" id="transmission-category"></div>
         </div>
 
-        <div class="collum">
-            <div class="fluid-linear-container" id="freio-category"></div>
-        </div>
-
-        
         <div class="cards">
             <img class="prop" src="/eixoauto/eixoautopi/img/Propagandas/propaganda1.svg" alt="propaganda">
             <img class="prop" src="/eixoauto/eixoautopi/img/Propagandas/propaganda2.svg" alt="propaganda">
             <img class="prop" src="/eixoauto/eixoautopi/img/Propagandas/propaganda3.svg" alt="propaganda">
             <img class="prop" src="/eixoauto/eixoautopi/img/Propagandas/propaganda4.svg" alt="propaganda">
+        </div>
+
+        <div class="collum">
+            <div class="fluid-linear-container" id="freio-category"></div>
         </div>
 
         <div class="container-slide">
@@ -131,9 +130,41 @@
 
     </div>
 
-    <div id="busca-resultados" style="position:relative; z-index:100;"></div>
 
-   
+    <!-- Footer -->
+     
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <img src="Logo E branca real.png" alt="" sizes="" srcset="">
+                <p>Seu destino para peças e acessórios automotivos de qualidade.</p>
+                <p>Endereço: Rua Paineiras, 1300 - Contagem, Minas Gerais</p>
+            </div>
+            <div class="footer-links">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="#">Sobre nós</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos e Condições</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Redes Sociais</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Loja de Autopeças - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts JS -->
+
     <script src="/eixoauto/eixoautopi/js/favoritos.js"></script>
     <script src="/eixoauto/eixoautopi/js/index.js"></script>
     <script src="/eixoauto/eixoautopi/js/compras.js"></script>

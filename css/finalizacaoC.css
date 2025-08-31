@@ -78,6 +78,7 @@ input{
 
 .checkbox{
     width: 20px;
+    cursor: pointer;
 }
 
 #payment{
@@ -88,6 +89,7 @@ input{
     width: 30%;
     height: 300px;
     display: block;
+    margin-bottom: 10px;
 }
 
 .Code-container{
@@ -95,9 +97,11 @@ input{
 }
 
 #Pix-Code{
-    width: 30%;
-    height: 20px;
-    text-align: center;
+    width: 100%;
+    height: 15px;
+    text-align: left;
+    font-size: 12px;
+    white-space: nowrap;
     padding: 10px;
     border: 1px, solid #333;
     border-radius: 5px;

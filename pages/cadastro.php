@@ -25,8 +25,6 @@ if(isset($_POST['submit'])){
 
     
     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-   
    
 
     $result_ins = "INSERT INTO tb_inscricao (Ins_CNPJ, Ins_InscricaoEstadual) VALUES (?, ?)";
@@ -82,17 +80,14 @@ if(isset($_POST['submit'])){
         <div id="logo">
             <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo da empresa Eixo">
         </div>
-
-        <nav>
-            <a href="/eixoauto/eixoautopi/pages/index.php">⇠ Voltar</a>
-        </nav>
     </header>
 
 
     <div id="container">
-        <h1>Cadastro</h1>
 
         <form action="#" method="POST">
+            <h1>Cadastro</h1>
+            
             <label for="Cli_Nome">Nome da Empresa:</label>
             <input type="text" id="Cli_Nome" name="Cli_Nome" required>
 
@@ -153,9 +148,9 @@ if(isset($_POST['submit'])){
                 </div>
             </div>
 
-            <button type="submit" name="submit">
+            <button id="btn-cadastro" type="submit" name="submit" >
                 <h4 id="cadastro">Cadastrar</h4>
-            </button>
+            </button >
         </form>
     </div>
     <script src="/eixoauto/eixoautopi/js/cadastro.js"></script>

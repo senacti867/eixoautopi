@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eixo Autopeças</title>
-    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="/eixoauto/eixoautopi/css/footer.css">
 </head>
 <body>
 
