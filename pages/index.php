@@ -10,17 +10,24 @@
 </head>
 
 <body>
-    <div class="background">
-        <div class="container">
-            <a href="/eixoauto/eixoautopi/pages/login.php">
-                <button id="login"> Login </button>
-            </a>
-
-            <a href="/eixoauto/eixoautopi/pages/cadastro.php">
-                <button id="cadastro"> Cadastro </button>
-            </a>
+    <header>
+        <div id="logo">
+            <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo EixoAutopeças">
         </div>
+    </header>
+
+    <div class="container">
+        <a href="/eixoauto/eixoautopi/pages/login.php">
+            <button class="btn" id="login"> Login </button>
+        </a>
+
+        <a href="/eixoauto/eixoautopi/pages/cadastro.php">
+            <button class="btn" id="cadastro"> Cadastro </button>
+        </a>
     </div>
+    
+    <div class="background-img"><img src="/eixoauto/eixoautopi/img/Propagandas/MercedesActrossBg.png" alt=""></div>
+
 </body>
 
 </html>

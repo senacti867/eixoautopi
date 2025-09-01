@@ -9,11 +9,14 @@ header{
     top: 0;
     height: 145px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #logo{
     display: flex;
-    justify-self:center ;
+    justify-self:center;
     height: 60px;
     width: 145px;
 }
