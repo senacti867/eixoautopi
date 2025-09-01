@@ -208,7 +208,7 @@ btn.addEventListener('click', () => {
 
     if (cartaoInfoFilled === true || boletoInfoFilled === true) {
         alert('Compra realizada!')
-        window.location.href = "/eixoauto/eixoautopi/pages/index.php"
+        window.location.href = "/eixoauto/eixoautopi/pages/home.php"
     } else {
         alert("Compra não realizada. Selecione e efetue o pagamento antes de concluir a ação")
     }
