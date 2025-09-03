@@ -4,8 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function adicionarNoCarrinho(produto) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  // Normaliza o caminho da imagem ANTES de salvar
+  let imgPath = produto.imagem;
+  if (imgPath && !imgPath.startsWith('/eixoauto/eixoautopi/')) {
+    if (imgPath.startsWith('img/')) {
+      imgPath = '/eixoauto/eixoautopi/' + imgPath;
+    } else if (!imgPath.startsWith('/')) {
+      imgPath = '/eixoauto/eixoautopi/img/Produtos/' + imgPath;
+    }
+    produto.imagem = imgPath;
+  }
+
   if (!carrinho.find(p => p.id === produto.id)) {
-    carrinho.unshift(produto); //Push do produto no início da array
+    carrinho.unshift(produto);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   }
 };
@@ -111,9 +123,28 @@ document.getElementById('carrinho').addEventListener('click', (event) => {
 // Função para navegar para a página de compra
 function apresentar(produto) {
   if (!produto) return;
+  // Garante que o produto tem o campo id
+  const id = produto.id || produto.Pro_ID || produto.ID;
+  if (!id) {
+    alert('Produto sem ID!');
+    return;
+  }
+
+  // Normaliza o caminho da imagem ANTES de salvar
+  let imgPath = produto.imagem;
+  if (imgPath && !imgPath.startsWith('/eixoauto/eixoautopi/')) {
+    if (imgPath.startsWith('img/')) {
+      imgPath = '/eixoauto/eixoautopi/' + imgPath;
+    } else if (!imgPath.startsWith('/')) {
+      imgPath = '/eixoauto/eixoautopi/img/Produtos/' + imgPath;
+    }
+    produto.imagem = imgPath;
+  }
+
   localStorage.setItem('compra', JSON.stringify([produto]));
   console.log('Produto salvo com sucesso no localStorage');
-  window.location.href = '/eixoauto/eixoautopi/pages/compra.php';
+  // Redireciona com o id na URL!
+  window.location.href = `/eixoauto/eixoautopi/pages/compra.php?id=${id}`;
 }
 
 // Função para selecionar produtos no carrinho

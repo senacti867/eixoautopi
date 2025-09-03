@@ -93,24 +93,33 @@ function ProdutosFavoritados() {
   }
 
   favoritos.forEach((produto) => {
-    const div = document.createElement('div');
-    div.classList.add('produto');
+  const div = document.createElement('div');
+  div.classList.add('produto');
 
-    const noCarrinho = carrinho.find(p => p.id === produto.id);
+  // Normaliza o caminho da imagem
+  let imgPath = produto.imagem;
+  if (imgPath && !imgPath.startsWith('/eixoauto/eixoautopi/')) {
+    if (imgPath.startsWith('img/')) {
+      imgPath = '/eixoauto/eixoautopi/' + imgPath;
+    } else if (!imgPath.startsWith('/')) {
+      imgPath = '/eixoauto/eixoautopi/img/Produtos/' + imgPath;
+    }
+  }
 
-    const carrinhoImgSrc = noCarrinho
-      ? "/eixoauto/eixoautopi/img/Icons/carrinho-preenchido.png"
-      : "/eixoauto/eixoautopi/img/Icons/carrinho-branco.png";
+  const noCarrinho = carrinho.find(p => p.id === produto.id);
+  const carrinhoImgSrc = noCarrinho
+    ? "/eixoauto/eixoautopi/img/Icons/carrinho-preenchido.png"
+    : "/eixoauto/eixoautopi/img/Icons/carrinho-branco.png";
 
-    div.innerHTML = `
-      <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Ícone de favoritos" onclick="removerFavorito(${produto.id})">
-      <div class='produtos'><img src='${produto.imagem}' alt='${produto.nome}'></div>
-      <h3>${produto.nome}</h3>
-      <div class='content'>
-        <h2>${produto.preco}</h2>
-        <img class="compras" src="${carrinhoImgSrc}" alt="Ícone do carrinho">
-      </div>
-    `;
+  div.innerHTML = `
+    <img class="fav_heart" src="/eixoauto/eixoautopi/img/Icons/heart-checked.png" alt="Ícone de favoritos" onclick="removerFavorito(${produto.id})">
+    <div class='produtos'><img src='${imgPath}' alt='${produto.nome}'></div>
+    <h3>${produto.nome}</h3>
+    <div class='content'>
+      <h2>${produto.preco}</h2>
+      <img class="compras" src="${carrinhoImgSrc}" alt="Ícone do carrinho">
+    </div>
+  `;
 
     div.addEventListener('click', (event) => {
       if (event.target.classList.contains('fav_heart')) {

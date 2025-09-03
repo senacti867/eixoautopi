@@ -137,7 +137,7 @@ function Cupom() {
 */
 
 // Endereço inicial
-let enderecoAtual = "Rua Exemplo, 123 - Bairro - Cidade/UF";
+let enderecoAtual = "Avenida São Joao, 165 - Bandeirantes, Contagem - MG, 32240-520";
 
 function atualizarResumo() {
     const produtos = JSON.parse(localStorage.getItem('produtos-compra')) || [];
