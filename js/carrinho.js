@@ -238,7 +238,7 @@ function QtdPreco(event) {
   qtd.textContent = quantidadeAtual;
 
   const total = quantidadeAtual * precoInicial;
-  preco.textContent = `R$ ${total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+  preco.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
   FinalizacaoCompra();
 }
