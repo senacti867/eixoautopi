@@ -21,7 +21,7 @@
         <div class="section">
             <h3>Endereço de Entrega</h3>
             <div id="endereco-exibicao">
-                <p id="texto-endereco">Rua Exemplo, 123 - Bairro - Cidade/UF</p>
+                <p id="texto-endereco">Avenida São João 165, Bandeirantes - Contagem MG, 32240-520</p>
                 <button class="btn-alterar" onclick="mostrarFormularioEndereco()">Alterar Endereço</button>
             </div>
 
