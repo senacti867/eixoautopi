@@ -121,11 +121,11 @@
 
         <div class="collum">
             <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/LF.png" alt="logo de empresa fornecedora">
-            <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/MX Turbo.png" alt="logo de empresa fornecedora">
+            <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/Fly.png" alt="logo de empresa fornecedora">
             <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/TruxMecanina.png" alt="logo de empresa fornecedora">
             <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/TruckFIX.png" alt="logo de empresa fornecedora">
             <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/Laranja.png" alt="logo de empresa fornecedora">
-            <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/Laranja.png" alt="logo de empresa fornecedora">
+            <img class="suppliers" src="/eixoauto/eixoautopi/img/Fornecedores/Kleed.png" alt="logo de empresa fornecedora">
         </div>
 
     </div>
