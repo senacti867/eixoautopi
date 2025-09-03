@@ -39,7 +39,7 @@ CREATE TABLE `tb_cliente` (
   CONSTRAINT `tb_cliente_ibfk_2` FOREIGN KEY (`Ema_ID`) REFERENCES `tb_email` (`Ema_ID`),
   CONSTRAINT `tb_cliente_ibfk_3` FOREIGN KEY (`Tel_ID`) REFERENCES `tb_telefone` (`Tel_ID`),
   CONSTRAINT `tb_cliente_ibfk_4` FOREIGN KEY (`Ins_CNPJ`) REFERENCES `tb_inscricao` (`Ins_CNPJ`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `tb_cliente` (
 
 LOCK TABLES `tb_cliente` WRITE;
 /*!40000 ALTER TABLE `tb_cliente` DISABLE KEYS */;
-INSERT INTO `tb_cliente` VALUES (6,'Arfreios','$2y$10$1dFgKS1MtvSyZuZEEPCyQO4VnWZCv7GIlhTwch9EGRCW3.btdaqGm',16,17,16,'01431159000123'),(7,'Rei Pecas','$2y$10$qqoWWXYLN0sPnXlnnmFnW.xmUfQRpTJZ88rb0zXd8DyOc0aGfo8/i',17,18,17,'205069814000123');
+INSERT INTO `tb_cliente` VALUES (6,'Arfreios','$2y$10$1dFgKS1MtvSyZuZEEPCyQO4VnWZCv7GIlhTwch9EGRCW3.btdaqGm',16,17,16,'01431159000123'),(7,'Rei Pecas','$2y$10$qqoWWXYLN0sPnXlnnmFnW.xmUfQRpTJZ88rb0zXd8DyOc0aGfo8/i',17,18,17,'205069814000123'),(8,'Arfreios Pecas Diesel','$2y$10$pE6u0QUKkOlmLYGYD8shDuoBz1NCPL1g.OPtS9eWy5htCkVGk9Hn.',18,19,18,'07931499000108');
 /*!40000 ALTER TABLE `tb_cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-28 23:33:33
+-- Dump completed on 2025-09-03  0:13:13

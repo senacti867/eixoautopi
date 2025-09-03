@@ -31,7 +31,7 @@ CREATE TABLE `tb_endereco` (
   `End_Cidade` varchar(45) NOT NULL,
   `End_Estado` varchar(45) NOT NULL,
   PRIMARY KEY (`End_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `tb_endereco` (
 
 LOCK TABLES `tb_endereco` WRITE;
 /*!40000 ALTER TABLE `tb_endereco` DISABLE KEYS */;
-INSERT INTO `tb_endereco` VALUES (11,12345678,'Rua das Flores',100,'Centro','São Paulo','SP'),(12,23456789,'Avenida Brasil',2000,'Jardins','Rio de Janeiro','RJ'),(13,34567890,'Rua Sete de Setembro',50,'Boa Vista','Recife','PE'),(14,45678901,'Travessa da Paz',10,'Batel','Curitiba','PR'),(15,56789012,'Alameda Santos',120,'Bela Vista','São Paulo','SP'),(16,32240390,'antonio raposo',321,'bandeirantes','CONTAGEM','MG'),(17,32240589,'alameda pinheiro',216,'Industrial','Contagem','Minas');
+INSERT INTO `tb_endereco` VALUES (11,12345678,'Rua das Flores',100,'Centro','São Paulo','SP'),(12,23456789,'Avenida Brasil',2000,'Jardins','Rio de Janeiro','RJ'),(13,34567890,'Rua Sete de Setembro',50,'Boa Vista','Recife','PE'),(14,45678901,'Travessa da Paz',10,'Batel','Curitiba','PR'),(15,56789012,'Alameda Santos',120,'Bela Vista','São Paulo','SP'),(16,32240390,'antonio raposo',321,'bandeirantes','CONTAGEM','MG'),(17,32240589,'alameda pinheiro',216,'Industrial','Contagem','Minas'),(18,32240520,'Avenida São João',165,'Bandeirantes','Contagem','MG');
 /*!40000 ALTER TABLE `tb_endereco` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-28 23:33:33
+-- Dump completed on 2025-09-03  0:13:13
