@@ -51,7 +51,7 @@ function PaginaDeProdutos() {
 
       <div class="info-section">
         <div class="top-row">
-          <img class="logo" src="" alt="">
+          <img class="logo" src="/eixoauto/eixoautopi/img/Fornecedores/Kleed.png" alt="">
           <h2 class="name">${produto.nome}</h2>
         </div>
         <div class="desc">
