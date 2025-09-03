@@ -97,13 +97,25 @@ document.addEventListener('click', (event) => {
 // Botão Adicionar ao carrinho
 function adicionarNoCarrinho(produto) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  // Normaliza o caminho da imagem ANTES de salvar
+  let imgPath = produto.imagem;
+  if (imgPath && !imgPath.startsWith('/eixoauto/eixoautopi/')) {
+    if (imgPath.startsWith('img/')) {
+      imgPath = '/eixoauto/eixoautopi/' + imgPath;
+    } else if (!imgPath.startsWith('/')) {
+      imgPath = '/eixoauto/eixoautopi/img/Produtos/' + imgPath;
+    }
+    produto.imagem = imgPath;
+  }
+
   if (!carrinho.find(p => p.id === produto.id)) {
     carrinho.unshift(produto);
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   } else {
     alert('Produto já está no carrinho!');
   }
-};
+}
 
 // INICIALIZAÇÃO 
 document.addEventListener('DOMContentLoaded', () => {
