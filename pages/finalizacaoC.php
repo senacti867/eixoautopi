@@ -12,7 +12,7 @@
 
     <header>
         <div id="logo">
-            <a href="/eixoauto/eixoautopi/pages/home.php"><img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo da empresa Eixo"></a>
+            <a href="/eixoauto/eixoautopi/pages/home.php"><img src="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png" alt="Logo da empresa Eixo"></a>
         </div>
     </header>
     <div class="checkout-container">
@@ -50,13 +50,7 @@
             
             <div id="payment"></div>
         </div>
-<!-- 
-        <div class="section">
-            <h3>Cupom</h3>
-            <input id="cupom-code" type="text" placeholder="Insira o código do Cupom">
-            <button id="aplicar-cupom">Aplicar</button>
-        </div> -->
-
+        
         <!-- Produtos -->
         <div class="section">
             <h3>Valor dos Produtos</h3>

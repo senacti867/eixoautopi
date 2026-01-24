@@ -25,10 +25,10 @@ function renderizarBusca(produtos) {
 // Evento de busca
 const inputBusca = document.getElementById('input-busca');
 const btnBusca = document.getElementById('btn-busca');
-const buscaResultados = document.getElementById('busca-resultados')
-buscaResultados.style.display = 'none'
+const buscaResultados = document.getElementById('busca-resultados');
+buscaResultados.style.display = 'none';
 
-inputBusca.addEventListener('input', function() {
+inputBusca.addEventListener('input', function () {
     const termo = this.value.trim();
     if (termo.length < 2) {
         buscaResultados.innerHTML = '';
@@ -42,7 +42,7 @@ inputBusca.addEventListener('input', function() {
 });
 
 // Evento de clique nos itens da busca
-buscaResultados.addEventListener('click', function(e) {
+buscaResultados.addEventListener('click', function (e) {
     const item = e.target.closest('.item-busca');
     if (item) {
         try {
@@ -57,11 +57,10 @@ buscaResultados.addEventListener('click', function(e) {
 
 const carrossels = document.querySelectorAll('.container-slide');
 carrossels.forEach(container => {
-    const slide = container.querySelector('.carousel-slide');
+    const slide = container.querySelector('#slider');
     const images = slide.querySelectorAll('.img-slides');
     const totalImages = images.length;
     let i = 0;
-
 
     function updateSlide() {
         slide.style.transform = `translateX(-${i * 100}%)`;
@@ -110,5 +109,5 @@ setInterval(() => {
     } else {
         j++;
     }
-    Banner()
+    Banner();
 }, 3000);

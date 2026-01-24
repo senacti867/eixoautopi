@@ -12,7 +12,7 @@
 <body>
     <header>
         <div id="logo">
-            <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo EixoAutopeças">
+            <img src="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png" alt="Logo EixoAutopeças">
         </div>
     </header>
 

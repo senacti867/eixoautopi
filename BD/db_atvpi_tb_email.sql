@@ -29,7 +29,7 @@ CREATE TABLE `tb_email` (
   `Ema_Email3` varchar(45) DEFAULT NULL,
   `Ema_Outros` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Ema_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `tb_email` (
 
 LOCK TABLES `tb_email` WRITE;
 /*!40000 ALTER TABLE `tb_email` DISABLE KEYS */;
-INSERT INTO `tb_email` VALUES (12,'lf@email.com',NULL,NULL,NULL),(13,'maxturbo@email.com',NULL,NULL,NULL),(14,'truxmecanica@email.com',NULL,NULL,NULL),(15,'truckfix@email.com',NULL,NULL,NULL),(16,'criasdoguincho@email.com',NULL,NULL,NULL),(17,'arfreiosnotas@gmail.com',NULL,NULL,NULL),(18,'reipecas@gmail.com',NULL,NULL,NULL);
+INSERT INTO `tb_email` VALUES (12,'lf@email.com',NULL,NULL,NULL),(13,'maxturbo@email.com',NULL,NULL,NULL),(14,'truxmecanica@email.com',NULL,NULL,NULL),(15,'truckfix@email.com',NULL,NULL,NULL),(16,'criasdoguincho@email.com',NULL,NULL,NULL),(17,'arfreiosnotas@gmail.com',NULL,NULL,NULL),(18,'reipecas@gmail.com',NULL,NULL,NULL),(19,'arfreios123@gmail.com',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tb_email` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-28 23:33:33
+-- Dump completed on 2025-09-03  0:13:13

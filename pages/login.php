@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
 <body>
     <header>
         <div>
-            <img id="logo" src ="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="">
+            <img id="logo" src ="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png.png" alt="">
         </div>
     </header>
     

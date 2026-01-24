@@ -1,6 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+function inicializarCarrinho() {
   CarrinhodeProdutos();
-})
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  inicializarCarrinho();
+});
 
 function adicionarNoCarrinho(produto) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
@@ -24,29 +29,57 @@ function adicionarNoCarrinho(produto) {
 
 // Função para exibir os produtos no carrinho
 function CarrinhodeProdutos() {
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  const container = document.getElementById('carrinho');
+  const container = document.createElement('div');
+  container.id = "carrinho";
+  document.body.appendChild(container);
+
+  if (!container) {
+    console.error('Elemento #carrinho não encontrado no DOM');
+    return;
+  }else{
+    console.log('Elemento #carrinho encontrado no DOM');
+  }
+
+  let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  // Garante que é um array
+  if (!Array.isArray(carrinho)) {
+    console.warn('Carrinho não é um array, convertendo...');
+    if (typeof carrinho === 'object' && carrinho !== null) {
+      carrinho = Object.values(carrinho);
+    } else {
+      carrinho = [];
+    }
+  }
+
+  console.log('Carrinho do localStorage:', carrinho);
+  console.log('Quantidade de produtos:', carrinho.length);
+
   container.innerHTML = '';
 
   if (carrinho.length === 0) {
     container.innerHTML = "<p>Seu carrinho está vazio.</p>";
+    console.log('Carrinho vazio - mostrando mensagem');
     return;
   }
 
-  carrinho.forEach(produto => {
+
+  carrinho.forEach((produtoObj, index) => {
+    console.log(`Renderizando produto ${index}:`, produtoObj);
+
     const div = document.createElement('div');
     div.classList.add('item-carrinho');
     div.innerHTML = `
-      <input type="checkbox" name="select-product" class="select-product" data-id="${produto.id}">
-      <img class="products" src="${produto.imagem}" alt="${produto.nome}">
-      <h2>${produto.nome}</h2>
+      <input type="checkbox" name="select-product" class="select-product" data-id="${produtoObj.id}">
+      <img class="products" src="${produtoObj.imagem}" alt="${produtoObj.nome}">
+      <h2>${produtoObj.nome}</h2>
       <div class="quantity">
         <button class="btn"><img class="less" src="/eixoauto/eixoautopi/img/Icons/subtracao-Icon.png" alt=""></button>
         <div class="qtd">1</div>
         <button class="btn"><img class="more" src="/eixoauto/eixoautopi/img/Icons/adicao-Icon.png" alt=""></button>
       </div>
       <div class="prize">
-        <h1> ${produto.preco}</h1>
+        <h1>${produtoObj.preco}</h1>
       </div>
     `;
 
@@ -61,63 +94,68 @@ function CarrinhodeProdutos() {
         QtdPreco(event);
         return;
       } else {
-        apresentar(produto);
+        apresentar(produtoObj);
       }
     });
 
     container.appendChild(div);
   });
-}
 
-document.getElementById('carrinho').addEventListener('click', (event) => {
-  const qtdDiv = event.target.closest('.qtd');
-  if (!qtdDiv) return;
+  function anexarEventosCarrinho() {
+    const carrinhoElement = document.getElementById('carrinho');
+    if (!carrinhoElement) return;
 
-  const item = qtdDiv.closest('.item-carrinho');
-  if (!item) return;
+    carrinhoElement.addEventListener('click', (event) => {
+      const qtdDiv = event.target.closest('.qtd');
+      if (!qtdDiv) return;
 
-  const nome = item.querySelector('h2').textContent;
-  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  const produto = carrinho.find(p => p.nome === nome);
-  if (!produto) return;
+      const item = qtdDiv.closest('.item-carrinho');
+      if (!item) return;
 
-  // Cria input para edição
-  const input = document.createElement('input');
-  input.type = 'number';
-  input.min = 1;
-  input.value = qtdDiv.textContent.trim();
-  input.classList.add('qtd');
-  qtdDiv.replaceWith(input);
+      const nome = item.querySelector('h2').textContent;
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const produto = carrinho.find(p => p.nome === nome);
+      if (!produto) return;
 
-  // Foco automático
-  input.focus();
+      // Cria input para edição
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = 1;
+      input.value = qtdDiv.textContent.trim();
+      input.classList.add('qtd');
+      qtdDiv.replaceWith(input);
 
-  // Quando sair do input ou apertar Enter → salvar
-  function salvar() {
-    let quantidadeAtual = parseInt(input.value) || 1;
-    if (quantidadeAtual < 1) quantidadeAtual = 1;
+      // Foco automático
+      input.focus();
 
-    // Atualiza o carrinho
-    const precoEl = item.querySelector('.prize h1');
-    const precoUnitario = parsePreco(produto.preco);
-    precoEl.textContent = (quantidadeAtual * precoUnitario).toFixed(2).replace('.', ',');
+      // Quando sair do input ou apertar Enter → salvar
+      function salvar() {
+        let quantidadeAtual = parseInt(input.value) || 1;
+        if (quantidadeAtual < 1) quantidadeAtual = 1;
 
-    // Substitui input pelo div novamente
-    const novoDiv = document.createElement('div');
-    novoDiv.classList.add('qtd');
-    novoDiv.textContent = quantidadeAtual;
-    input.replaceWith(novoDiv);
+        // Atualiza o carrinho
+        const precoEl = item.querySelector('.prize h1');
+        const precoUnitario = parsePreco(produto.preco);
+        precoEl.textContent = (quantidadeAtual * precoUnitario).toFixed(2).replace('.', ',');
 
-    FinalizacaoCompra();
+        // Substitui input pelo div novamente
+        const novoDiv = document.createElement('div');
+        novoDiv.classList.add('qtd');
+        novoDiv.textContent = quantidadeAtual;
+        input.replaceWith(novoDiv);
+
+        FinalizacaoCompra();
+      }
+
+      input.addEventListener('blur', salvar);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          salvar();
+        }
+      });
+    });
   }
-
-  input.addEventListener('blur', salvar);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      salvar();
-    }
-  });
-});
+}
 
 
 // Função para navegar para a página de compra
@@ -204,6 +242,7 @@ document.addEventListener('click', (event) => {
     });
     carrinho = carrinho.filter(p => !NamesToExclude.includes(p.nome.trim()));
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    window.location.reload();
     CarrinhodeProdutos()
   }
 });

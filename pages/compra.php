@@ -13,7 +13,7 @@
   <header>
     <div id="logo">
       <a href="/eixoauto/eixoautopi/pages/home.php">
-        <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo da empresa Eixo">
+        <img src="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png" alt="Logo da empresa Eixo">
       </a>
     </div>
   </header>

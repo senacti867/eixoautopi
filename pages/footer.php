@@ -13,7 +13,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-info">
-                <img src="Logo E branca real.png" alt="" sizes="" srcset="">
+                <img src="LogoBrancareal.png" alt="" sizes="" srcset="">
                 <p>Seu destino para peças e acessórios automotivos de qualidade.</p>
                 <p>Endereço: Rua Paineiras, 1300 - Contagem, Minas Gerais</p>
             </div>

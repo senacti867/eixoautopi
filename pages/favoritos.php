@@ -11,7 +11,7 @@
 <body>
     <header>
         <div id="logo">
-            <a href="/eixoauto/eixoautopi/pages/home.php"><img src="/eixoauto/eixoautopi/img//Icons/Logo E branca real.png" alt="Logo da empresa `Eixo`"></a>
+            <a href="/eixoauto/eixoautopi/pages/home.php"><img src="/eixoauto/eixoautopi/img//Icons/LogoBrancareal.png" alt="Logo da empresa `Eixo`"></a>
         </div>
 
     </header>
@@ -19,14 +19,6 @@
     <div class="container">
         <div class="favorites-box" id="favoritos-container">
             <div class="produto">
-                <!-- <img class="produtos" src=" " alt="">
-                <h2>Nome do Produto</h2>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-    
-                <div class="content">
-                    <h2>R$ 40,00</h2>
-                    <img class="compras" src="/eixoauto/eixoautopi/img/Icons/carrinho-branco.png" alt="">
-                </div>  -->
             </div>
         </div>
     </div>
@@ -36,7 +28,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-info">
-                <img src="Logo E branca real.png" alt="" sizes="" srcset="">
+                <img src="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png" alt="" sizes="" srcset="">
                 <p>Seu destino para peças e acessórios automotivos de qualidade.</p>
                 <p>Endereço: Rua Paineiras, 1300 - Contagem, Minas Gerais</p>
             </div>

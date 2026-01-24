@@ -15,7 +15,7 @@
     <header>
         <nav>
             <div id="logo">
-                <img src="/eixoauto/eixoautopi/img/Icons/Logo E branca real.png" alt="Logo EixoAuto">
+                <img src="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png" alt="Logo EixoAuto">
             </div>
 
             <div id="header-content" style="position: relative;">
@@ -136,7 +136,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-info">
-                <img src="Logo E branca real.png" alt="" sizes="" srcset="">
+                <img src="/eixoauto/eixoautopi/img/Icons/LogoBrancareal.png" alt="" sizes="" srcset="">
                 <p>Seu destino para peças e acessórios automotivos de qualidade.</p>
                 <p>Endereço: Rua Paineiras, 1300 - Contagem, Minas Gerais</p>
             </div>
